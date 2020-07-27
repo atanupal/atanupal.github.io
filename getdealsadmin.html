@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="script10admin.js"></script>
+
+
+
+
+
+
+
+
+<script>
+
+loadLib("script10final");
+
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user = getCookie("username");
+    if (user != "") {
+       // alert("Welcome again " + user);
+    } else {
+        user = prompt("Please enter your name:", "");
+        if (user != "" && user != null) {
+            setCookie("username", user, 365);
+        }
+    }
+}
+
+
+
+
+
+function refresh1()
+{
+
+var temp= document.cookie.indexOf('wallpaper1=');
+
+if (temp==-1)
+{
+document.cookie = 'wallpaper1=wall1';
+radiobtn = document.getElementById("wall1");
+radiobtn.checked = true;
+document.body.style.background = 'url(wall1.jpg) repeat center center';
+}
+else{
+var theme = getCookie("wallpaper1");
+
+radiobtn = document.getElementById(theme);
+radiobtn.checked = true;
+document.body.style.background = 'url('+theme+'.jpg) repeat center center';
+}
+
+
+
+}
+
+
+function func(v)
+{
+
+
+    
+  document.body.style.background = 'url('+v+'.jpg) repeat center center';
+ document.cookie = 'wallpaper1=' + v;
+  
+  
+  
+}
+
+$(function() {
+  $('input:radio').change(function() {
+    $('#colorselected').html(this.value);
+  });
+});
+
+
+</script>
+
+<style>
+
+
+
+table {
+    margin: 0 auto;
+}
+input {
+    border: 1;
+    background: transparent /* the important bit */
+}
+textarea {
+    border: 1;
+    background: transparent /* the important bit */
+}
+button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 1;
+    cursor:pointer;
+    overflow: hidden;
+    outline:1;
+}
+#sum
+{
+
+width:120px;
+   
+   
+    white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+#des
+{
+
+width:225px;
+   
+   
+    white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#atanu
+{
+
+width:200px;
+   
+   
+    white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+#atanu2
+{
+
+width:70px;
+   
+   
+    white-space: pre-wrap; /* css-3 */    
+    white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+    white-space: -pre-wrap; /* Opera 4-6 */    
+    white-space: -o-pre-wrap; /* Opera 7 */    
+    word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+
+
+
+img{
+  
+    object-fit: contain;
+    }
+	
+	button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 1;
+    cursor:pointer;
+    overflow: hidden;
+    outline:1;
+}
+
+
+ul.swatch-colors {
+  list-style: none;
+}
+ul.swatch-colors li{
+  display:inline-block;
+  margin:5px;
+  padding:0
+  
+}
+.swatch-colors li .swatch-img {
+  cursor:pointer;
+  display:block;
+}
+input[type=radio] {
+  display: none;
+}
+input:checked + label img {
+  border:2px solid #00f;
+}
+
+table {
+    width:90%;
+      table-layout:fixed; 
+}
+
+a {
+    text-decoration:none;
+}
+
+a:hover {
+   text-decoration:underline;
+}
+	html, body {
+    width: 100%;
+}
+table {
+    margin: 0 auto;
+}
+</style>
+
+
+</head>
+
+<body  onload="refresh()"  bgcolor="#BFB3FF" lang=EN-US
+link=blue vlink=purple>
+
+
+<center>
+
+
+
+
+<table border="0" id="table1" style="max-width:800px;" align="center">
+
+
+
+
+<tr>
+<td><center>
+
+<img src="deals.jpg" height="142" width="242"> 
+</center>
+</td>
+
+<td>
+<center>
+<img src="deals.gif" height="142" width="242"> 
+</center></td>
+<td>
+<center><img src="deals.jpg" height="142" width="242"> 
+</center></td>
+</tr>
+</table>
+</center>
+
+<center>
+<table border="0" id="table2" align="center" style="max-width:800px;">
+<tr>
+<td>
+
+<button id="expand" onclick="expand()">+ Expand All</button>
+
+</td>
+
+</tr>
+</table>
+</center>
+
+
+<center>
+	 <table border="1" id="table3" style="max-width:800px;" align="center">
+	 
+<col width="60">
+<col width="120">
+<col width="230">
+<col width="45">
+<col width="45">
+<col width="170">
+<col width="205">
+<col width="120">
+<col width="120">
+<col width="70">
+<col width="70">
+
+
+<tr>
+<th>Deal_ID </th>
+
+<th>Summary </th>
+
+<th>Description </th>
+
+
+<th>Deal Price </th>
+
+<th>Max Price </th>
+
+<th> Picture  </th>
+
+
+
+<th>Link </th>
+<th> Thumbs up </th>
+<th> Thumbs down </th>
+<th> Uploaded By </th>
+
+
+
+<th> Mark as Expired </th>
+<th> Update/Expired </th>
+</tr>
+
+
+	 
+<tr>
+
+<td> <center><label id="deal_id1"></label></center></td>
+
+<td><div id="sum"><label id="summary1"></label> </div><input id="sum1" type="text" name="sum1"></td>
+<td><div id="des"><label id="description1"></label> </div><textarea rows="12" cols="28" id="des1" name="des1" ></textarea></td>
+<td><center> <label id="dealprice1"></label></center><input id="dep1" type="text" name="dep1"></td>
+
+<td><center><label id="maxprice1"></label><center><input id="map1" type="text" name="map1"> </td>
+<td><div id="image"><img id="img1" src="" alt="" style="width:170px;height:150px;"></div><input id="imm1" type="text" name="imm1"></td>
+<td> <div id="atanu"><label id="link1"></label></div><input id="lin1" type="text" name="lin1">
+</td>
+
+
+<td><center><label id="tup1"></label> </center><button id="tu1" onclick="thumbsup1()"> <img id="thu1" src="thumbsup.jpg" alt="Thumbsup" style="width:100px;height:80px;"></button></td>
+<td><center><label id="tdown1"></label> </center><button id="td1" onclick="thumbsdown1()"> <img id="thd1" src="thumbsdown.jpg" alt="Thumbsdown" style="width:100px;height:80px;"></button></td>
+<td><div id="atanu2"><label id="uploadname1"></label></div> <input id="upn1" type="text" name="upn1"> </td>
+
+
+<td><center><label id="ex1">0</label></center><button id="exp1" onclick="expired1()">Mark as Expired</button> <img id="expi1" src="" alt="" style="width:100px;height:80px;"></td>
+
+<td><center><label id="com1">0</label><button id="u1" onclick="update11()"> Update</button><button id="e1" onclick="expired11()"> Expired</button><button id="ma1" onclick="mailall1()"> Mail All</button><button id="del1" onclick="delete1()">Delete</button><label id="sta1"></td>
+
+
+</tr>
+
+<tr>
+
+<td> <center><label id="deal_id2"></label></center></td>
+
+<td><div id="sum"><label id="summary2"></label> </div><input id="sum2" type="text" name="sum2"></td>
+<td><div id="des"><label id="description2"></label> </div><textarea rows="12" cols="28" id="des2" name="des2" ></textarea></td>
+<td> <center><label id="dealprice2"></label></center><input id="dep2" type="text" name="dep2"></td>
+
+<td><center><label id="maxprice2"></label></center> <input id="map2" type="text" name="map2"></td>
+<td><div id="image"><img id="img2" src="" alt="" style="width:170px;height:150px;"></div><input id="imm2" type="text" name="imm2"></td>
+<td> <div id="atanu"><label id="link2"></label></div><input id="lin2" type="text" name="lin2"></td>
+
+<td><center><label id="tup2"></label></center> <button id="tu2" onclick="thumbsup2()"> <img id="thu2" src="thumbsup.jpg" alt="Thumbsup" style="width:100px;height:80px;"></button></td>
+<td><center><label id="tdown2"></label></center> <button id="td2" onclick="thumbsdown2()"> <img id="thd2" src="thumbsdown.jpg" alt="Thumbsdown" style="width:100px;height:80px;"></button></td>
+<td><div id="atanu2"><label id="uploadname2"></label></div> <input id="upn2" type="text" name="upn2"></td>
+
+<td><center><label id="ex2">0</label></center><button id="exp2" onclick="expired2()">Mark as Expired</button> <img id="expi2" src="" alt="" style="width:100px;height:80px;"></td>
+<td><center><label id="com2">0</label><button id="u2" onclick="update22()"> Update</button><button id="e2" onclick="expired22()"> Expired</button><button id="ma2" onclick="mailall2()">Mail All</button><button id="del2" onclick="delete2()">Delete</button><label id="sta2"></td>
+
+</tr>
+<tr>
+
+<td> <center><label id="deal_id3"></label></center></td>
+
+<td><div id="sum"><label id="summary3"></label> </div><input id="sum3" type="text" name="sum3"> </td>
+<td><div id="des"><label id="description3"></label></div> <textarea rows="12" cols="28" id="des3" name="des3" ></textarea></td>
+<td><center> <label id="dealprice3"></label></center><input id="dep3" type="text" name="dep3"></td>
+
+<td><center><label id="maxprice3"></label></center> <input id="map3" type="text" name="map3"></td>
+<td><div id="image"><img id="img3"  src="" alt="" style="width:170px;height:150px;"></div><input id="imm3" type="text" name="imm3"></td>
+<td><div id="atanu"><label id="link3"></label></div><input id="lin3" type="text" name="lin3"></td>
+
+<td><center><label id="tup3"></label></center> <button id="tu3" onclick="thumbsup3()"> <img id="thu3" src="thumbsup.jpg" alt="Thumbsup" style="width:100px;height:80px;"></button></td>
+<td><center><label id="tdown3"></label></center> <button id="td3" onclick="thumbsdown3()"> <img id="thd3" src="thumbsdown.jpg" alt="Thumbsdown" style="width:100px;height:80px;"></button></td>
+<td><div id="atanu2"><label id="uploadname3"></label></div> <input id="upn3" type="text" name="upn3"> </td>
+
+<td><center><label id="ex3">0</label></center><button id="exp3" onclick="expired3()">Mark as Expired</button> <img id="expi3" src="" alt="" style="width:100px;height:80px;"></td>
+
+<td><center><label id="com3">0</label><button id="u3" onclick="update33()"> Update</button><button id="e3" onclick="expired33()"> Expired</button><button id="ma3" onclick="mailall3()">Mail All</button><button id="del3" onclick="delete3()">Delete</button><label id="sta3"></td>
+</tr>
+<tr>
+
+<td> <center><label id="deal_id4"></label></center></td>
+
+<td><div id="sum"><label id="summary4"></label> </div> <input id="sum4" type="text" name="sum4"> </td>
+<td><div id="des"><label id="description4"></label> </div><textarea rows="12" cols="28" id="des4" name="des4" ></textarea></td>
+<td><center> <label id="dealprice4"></label></center><input id="dep4" type="text" name="dep4"></td>
+
+<td><center><label id="maxprice4"></label></center> <input id="map4" type="text" name="map4"></td>
+<td><div id="image"><img id="img4"  src="" alt="" style="width:170px;height:150px;"></div><input id="imm4" type="text" name="imm4"></td>
+
+<td> <div id="atanu"><label id="link4"></label></div><input id="lin4" type="text" name="lin4"></td>
+
+<td><center><label id="tup4"></label></center> <button id="tu4" onclick="thumbsup4()"> <img id="thu4" src="thumbsup.jpg" alt="Thumbsup" style="width:100px;height:80px;"></button></td>
+<td><center><label id="tdown4"></label></center> <button id="td4" onclick="thumbsdown4()"> <img id="thd4" src="thumbsdown.jpg" alt="Thumbsdown" style="width:100px;height:80px;"></button></td>
+
+<td><div id="atanu2"><label id="uploadname4"></label></div> <input id="upn4" type="text" name="upn4"> </td>
+
+
+<td><center><label id="ex4">0</label></center><button id="exp4" onclick="expired4()">Mark as Expired</button> <img id="expi4" src="" alt="" style="width:100px;height:80px;"></td>
+<td><center><label id="com4">0</label><button id="u4" onclick="update44()"> Update</button><button id="e4" onclick="expired44()"> Expired</button><button id="ma4" onclick="mailall4()">Mail All</button><button id="del4" onclick="delete4()">Delete</button><label id="sta4"></td>
+
+</tr>
+
+</table>
+</center>
+<center>
+<table align="center" style="max-width:800px;" id ="table5">
+<tr>
+<td>
+	 <button id="Prev" onclick="previous()"><img id="prev1" src="prev.gif" alt="prev" style="width:50px;height:50px;"></button>
+</td>
+<td>
+<img id="ref1" src="refresh.gif" alt="refresh" style="width:100px;height:100px;" onclick="refresh5()">
+ </td>
+ <td>
+ <button id="Next" onclick="next()"><img id="next1" src="next.gif" alt="next" style="width:50px;height:50px;"></button>
+ </td>
+ </tr>
+ 
+<tr>
+ 
+  <td><button id="page1" onclick="page1()">Page 1</button>
+  </td>
+  </tr>
+  </table>
+  </center>
+  
+  
+  
+  
+  
+  <center>
+   <table id="table6" border="0" align = "center"> 
+  <tr>
+ <td> 
+<p id="count">0</p></td></tr>
+<tr><td>
+<p id="current">0</p></td></tr>
+<tr><td>
+<p id="number_of_pages">0</p></td></tr>
+<tr><td>
+<p id="page_number">Page Number is : 1</p></br>
+</td></tr>
+
+
+<tr><td>
+	 <p><span id="txtHint"></span></p> 
+</td></tr>
+
+</table>
+ </center> 
+	 
+	 
+
+
+
+
+
+
+
+
+	 
+<center>
+<table id="table4" align = "center">
+<tr>
+
+
+<td></td>
+<td><label> Username: <label>
+<input id="username" type="text" name="username"></td>
+
+</tr>
+
+<tr>
+
+
+<td></td>
+<td><label> Password: <label>
+<input id="password" type="password" name="password"></td>
+
+</tr>
+
+<tr>
+
+
+<td></td>
+<td>
+<button id="login" onclick="login()" type="submit">Login</button> </td>
+
+</tr>
+</table>
+</center>
+	 
+	 
+	 
+	 
+
+<center><h1><a href="deals.html">Home</a></h1></center>
+
+
+
+		<ul id="thumbnails1" class="noul swatch-colors">
+	<table align="center" style="max-width:800px;">
+<tr>
+<td>	
+		
+ <label for="select" class="select">
+      <img src="select.jpg" class="full swatch-img" alt="Select" title="Select" width="100" height="100">
+    </label>
+	
+	</td>
+  
+<td>
+  <li>
+  
+    <input name="swatch_color" value="wall1" type="radio" id="wall1" onClick="func(this.value);">
+    <label for="wall1" class="lbswatches">
+      <img src="wall1_small.jpg" class="full swatch-img" alt="Wall1" title="Wall1" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  
+  <li>
+    <input name="swatch_color" value="wall2" type="radio" id="wall2" onClick="func(this.value);">
+    <label class="lbswatches" for="wall2">
+      <img src="wall2_small.jpg" class="full swatch-img" alt="Wall2" title="Wall2" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall3" type="radio" id="wall3" onClick="func(this.value);">
+    <label class="lbswatches" for="wall3">
+      <img src="wall3_small.jpg" class="full swatch-img" alt="Wall3" title="Wall3" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall4"  type="radio" id="wall4" onClick="func(this.value);">
+    <label class="lbswatches" for="wall4">
+      <img src="wall4_small.jpg" class="full swatch-img" alt="Wall4" title="Wall4" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall5"  type="radio" id="wall5" onClick="func(this.value);">
+    <label class="lbswatches" for="wall5">
+      <img src="wall5_small.jpg" class="full swatch-img" alt="Wall5" title="Wall5" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  </tr>
+  </table>
+</ul>
+<h2 id="colorselected"></h2>
+
+</body>
+
+ 
+
+
+</html>

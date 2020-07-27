@@ -1,0 +1,873 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Atanu's Web Site</title>
+<meta name="Microsoft Theme">
+<meta name="Microsoft Border" content="none">
+</head>
+
+<body>
+
+
+
+
+
+<div id="dot0" style="position: absolute; visibility: hidden; height: 199; width: 731; left: 50; top: -33">
+    &nbsp;
+</div>
+<div id="dot1" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+<div id="dot2" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+<div id="dot3" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+<div id="dot4" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+<div id="dot5" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+<div id="dot6" style="position: absolute; height: 11; width: 11;">
+	<img src="bullet.gif" height=11 width=11>
+</div>
+
+<script LANGUAGE="JavaScript">
+<!-- hide code
+
+
+var nDots = 7;
+
+var Xpos = 0;
+var Ypos = 0;
+
+var DELTAT = .01;
+var SEGLEN = 10;
+var SPRINGK = 10;
+var MASS = 1;
+var XGRAVITY = 0;
+var YGRAVITY = 50;
+var RESISTANCE = 10;
+var STOPVEL = 0.1;
+var STOPACC = 0.1;
+var DOTSIZE = 11;
+var BOUNCE = 0.75;
+
+var isNetscape = navigator.appName=="Netscape";
+
+var followmouse = true;
+
+var dots = new Array();
+init();
+
+function init()
+{
+    var i = 0;
+    for (i = 0; i < nDots; i++) {
+        dots[i] = new dot(i);
+    }
+    
+    if (!isNetscape) {
+        // I only know how to read the locations of the 
+        // <LI> items in IE
+        //skip this for now
+        // setInitPositions(dots)
+    }
+    
+    // set their positions
+    for (i = 0; i < nDots; i++) {
+        dots[i].obj.left = dots[i].X;
+        dots[i].obj.top = dots[i].Y;
+    }
+    
+    
+    if (isNetscape) {
+        startanimate();
+    } else {
+        setTimeout("startanimate()", 1000);
+    }
+}
+
+
+
+function dot(i) 
+{
+    this.X = Xpos;
+    this.Y = Ypos;
+    this.dx = 0;
+    this.dy = 0;
+    if (isNetscape) {	
+        this.obj = eval("document.dot" + i);
+    } else {
+        this.obj = eval("dot" + i + ".style");
+    }
+}
+
+
+function startanimate() {	
+    setInterval("animate()", 20);
+}
+
+
+function setInitPositions(dots)
+{
+    var startloc = document.all.tags("LI");
+    var i = 0;
+    for (i = 0; i < startloc.length && i < (nDots - 1); i++) {
+        dots[i+1].X = startloc[i].offsetLeft
+            startloc[i].offsetParent.offsetLeft - DOTSIZE;
+        dots[i+1].Y = startloc[i].offsetTop +
+            startloc[i].offsetParent.offsetTop + 2*DOTSIZE;
+    }
+    dots[0].X = dots[1].X;
+    dots[0].Y = dots[1].Y - SEGLEN;
+}
+
+function MoveHandler(e)
+{
+    Xpos = e.pageX;
+    Ypos = e.pageY;	  
+    return true;
+}
+
+function MoveHandlerIE() {
+    Xpos = window.event.x + document.body.scrollLeft;
+    Ypos = window.event.y + document.body.scrollTop;	  
+}
+
+if (isNetscape) {
+    document.captureEvents(Event.MOUSEMOVE);
+    document.onMouseMove = MoveHandler;
+} else {
+    document.onmousemove = MoveHandlerIE;
+}
+
+
+function vec(X, Y)
+{
+    this.X = X;
+    this.Y = Y;
+}
+
+function springForce(i, j, spring)
+{
+    var dx = (dots[i].X - dots[j].X);
+    var dy = (dots[i].Y - dots[j].Y);
+    var len = Math.sqrt(dx*dx + dy*dy);
+    if (len > SEGLEN) {
+        var springF = SPRINGK * (len - SEGLEN);
+        spring.X += (dx / len) * springF;
+        spring.Y += (dy / len) * springF;
+    }
+}
+
+
+function animate() {	
+    var start = 0;
+    if (followmouse) {
+        dots[0].X = Xpos;
+        dots[0].Y = Ypos;	
+        start = 1;
+    }
+    
+    for (i = start ; i < nDots; i++ ) {
+        
+        var spring = new vec(0, 0);
+        if (i > 0) {
+            springForce(i-1, i, spring);
+        }
+        if (i < (nDots - 1)) {
+            springForce(i+1, i, spring);
+        }
+        
+        var resist = new vec(-dots[i].dx * RESISTANCE,
+            -dots[i].dy * RESISTANCE);
+        
+        var accel = new vec((spring.X + resist.X)/MASS + XGRAVITY,
+            (spring.Y + resist.Y)/ MASS + YGRAVITY);
+        
+        dots[i].dx += (DELTAT * accel.X);
+        dots[i].dy += (DELTAT * accel.Y);
+        
+        if (Math.abs(dots[i].dx) < STOPVEL &&
+            Math.abs(dots[i].dy) < STOPVEL &&
+            Math.abs(accel.X) < STOPACC &&
+            Math.abs(accel.Y) < STOPACC) {
+            dots[i].dx = 0;
+            dots[i].dy = 0;
+        }
+        
+        dots[i].X += dots[i].dx;
+        dots[i].Y += dots[i].dy;
+        
+        var height, width;
+        if (isNetscape) {
+            height = window.innerHeight + window.pageYOffset;
+            width = window.innerWidth + window.pageXOffset;
+        } else {	
+            height = document.body.clientHeight + document.body.scrollTop;
+            width = document.body.clientWidth + document.body.scrollLeft;
+        }
+        
+        if (dots[i].Y >=  height - DOTSIZE - 1) {
+            if (dots[i].dy > 0) {
+                dots[i].dy = BOUNCE * -dots[i].dy;
+            }
+            dots[i].Y = height - DOTSIZE - 1;
+        }
+        if (dots[i].X >= width - DOTSIZE) {
+            if (dots[i].dx > 0) {
+                dots[i].dx = BOUNCE * -dots[i].dx;
+            }
+            dots[i].X = width - DOTSIZE - 1;
+        }
+        if (dots[i].X < 0) {
+            if (dots[i].dx < 0) {
+                dots[i].dx = BOUNCE * -dots[i].dx;
+            }
+            dots[i].X = 0;
+        }
+        
+        dots[i].obj.left = dots[i].X;			
+        dots[i].obj.top =  dots[i].Y;		
+    }
+}
+
+</script>
+
+
+
+<p>&nbsp;</p>
+
+
+
+<div align="center">
+  <center>
+  <table border="0" cellpadding="0" cellspacing="8" width="643">
+    <tr>
+      <td valign="middle" width="366" nowrap>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><span style="font-size:16.0pt;mso-bidi-font-size:14.0pt"><font size="1" color="#808000">Last
+        Modified: 14.06.2003</font></span></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><b><span style="font-size:14.0pt;mso-bidi-font-size:12.0pt"><font size="6" color="#FFCC99">Atanu
+        Pal </font><font color="#FFFFCC"></o:p>
+        </font>
+        </span></b></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFFFCC" size="4">K-13,
+        Andrews Ganj Extention, Josip Broz Tito Marg</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFFFCC" size="4">New
+        Delhi -110049, India&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="font-size:12.0pt"><span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4"><font color="#FFFFCC">91-011-26250829</font><b><font color="#FFFFCC"><o:p>
+        </font><font color="#FFFF00">
+        </o:p>
+        </font>
+        </b></font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4"><b><font color="#FFCC66">e-mail:</font></b>
+        <font color="#FFFFFF">
+        <a href="mailto:pal_atanu@hotmail.com">pal_atanu@hotmail.com</a></font></font></p>
+        &nbsp;</td>
+      <td valign="middle" width="229"><font color="#000000"><br>
+        <img border="0" src="atanu_2.jpg" v:shapes="_x0000_i1025" width="151" height="212"><br>
+        </font></td>
+    </tr>
+    <tr>
+      <td valign="top" width="595" colspan="2">
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background-color: #E0E0E0; background-repeat: repeat; background-attachment: scroll; border-collapse: collapse; mso-padding-alt: 0in 5.4pt 0in 5.4pt; background-position: 0% 50%" width="606">
+          <tr>
+            <td width="590" valign="top" style="padding-left: 5.4pt; padding-right: 5.4pt; padding-top: 0in; padding-bottom: 0in">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><span style="font-size: 14.0pt"><font size="6" color="#000000"><b><span style="font-size:14.0pt">Objective</span></b></font><i style="mso-bidi-font-style:
+  normal"><font size="6" color="#000000"><span style="font-size:14.0pt;mso-bidi-font-size:10.0pt;letter-spacing:
+  1.0pt"><o:p>
+              </span></font><span style="font-size:14.0pt;mso-bidi-font-size:10.0pt;letter-spacing:
+  1.0pt"><font size="5" color="#000000">
+              </o:p>
+              </font>
+              </span></i></span></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#00FF00">&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FFCCCC">&nbsp;&nbsp;<font size="4">&nbsp;
+        To
+        be sincere and give 100% to the job on hand. <span style="mso-bidi-font-size:10.0pt;mso-fareast-font-family:&quot;Arial Unicode MS&quot;;
+color:windowtext;text-decoration:none;text-underline:none" class="MsoHyperlink"><o:p>
+        &nbsp;
+        </span></font></font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFFFCC" size="4"></o:p>
+        </font></p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background-color: #E0E0E0; background-repeat: repeat; background-attachment: scroll; border-collapse: collapse; mso-padding-alt: 0in 5.4pt 0in 5.4pt; background-position: 0% 50%" width="606">
+          <tr>
+            <td width="590" valign="top" style="padding-left: 5.4pt; padding-right: 5.4pt; padding-top: 0in; padding-bottom: 0in">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size:14.0pt"><font color="#000000">Educational
+              Qualification</font></span></b><font color="#000000"><i style="mso-bidi-font-style:normal"><span style="font-size:14.0pt;mso-bidi-font-size:
+  10.0pt;letter-spacing:1.0pt"><o:p>
+              </o:p>
+              </span></i></font></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><b><font color="#FFFFCC">&nbsp;<o:p>
+        </o:p>
+        <span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="4">&nbsp;&nbsp;&nbsp;
+        </font></span></font><font size="4" color="#FFCC66">M. C. A</font></b><font size="4" color="#FFCC66">.
+        (2000-2003) from Jamia Millia Islamia (Central University), New Delhi</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4" color="#FFCC66">&nbsp;
+        <span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-bidi-font-size:10.0pt;
+font-family:Arial;mso-bidi-font-family:&quot;Times New Roman&quot;">Aggregate</span><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>Ist Year <b>79.55%</b><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>IInd Year <b>82.06%</b><o:p>
+        &nbsp;</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4" color="#FFCC66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        IIIrd Year <b>Result Awaited</b></font><font color="#FFFFCC" size="4"></o:p>
+        </font></p>
+        <p class="MsoHeading7" style="text-align:justify;text-indent:0in"><font color="#FFFFCC" size="4"><span style="mso-tab-count: 1; font-family: Times New Roman">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font size="4" color="#FFCCCC"><b>B.Sc.(Applied) Degree in
+        Instrumentation </b>(1997-2000),
+        Delhi University</font></p>
+        <p class="MsoHeading7" style="text-align:justify;text-indent:0in"><font size="4" color="#FFCCCC"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-bidi-font-size:
+10.0pt;font-family:Arial;mso-bidi-font-family:&quot;Times New Roman&quot;">Aggregate</span><span style="mso-spacerun: yes">&nbsp;
+        </span><b>74.2%</b><o:p>
+        </font><font color="#FFFFCC" size="4">
+        </o:p>
+        </font></p>
+        <p class="MsoHeading7" style="text-align:justify;text-indent:0in"><font color="#FFFFCC" size="4">&nbsp;<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font size="4" color="#FFCC99"><span style="font-family: Times New Roman"><b><span style="font-family:&quot;Times New Roman&quot;">12th
+        From CBSE Board, Delhi</span></b><span style="font-family:&quot;Times New Roman&quot;"><b>
+        </b>(1997).<o:p>
+        </span></span></font><span style="font-family:&quot;Times New Roman&quot;"><font color="#FFFFCC" size="4">
+        </o:p>
+        </font>
+        </span></p>
+        <p class="MsoHeading7" style="text-align:justify;text-indent:0in"><b><span style="font-family:&quot;Times New Roman&quot;"><font color="#FFFFCC" size="4"><span style="mso-spacerun: yes">&nbsp;</span><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font></span><font size="4" color="#FF9999"><span style="font-family: Times New Roman">10th From CBSE Board, Delhi</span></font></b><font size="4" color="#FF9999"><span style="font-family:&quot;Times New Roman&quot;">
+        (1995)</span></font></p>
+        <p class="MsoHeading7" style="text-align:justify;text-indent:0in">&nbsp;</p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size: 14.0pt"><font color="#000000">Additional
+              Qualification</font></span></b><i style="mso-bidi-font-style:
+  normal"><span style="font-size:14.0pt;mso-bidi-font-size:10.0pt;letter-spacing:
+  1.0pt"><o:p>
+              </o:p>
+              </span></i></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none">&nbsp;<o:p>
+        </o:p>
+        <font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#00FF00">&nbsp;<font size="4">&nbsp;</font></font><font color="#CCCCFF" size="4">
+        Completed 2 years of the <b>GNIIT</b> program from <b><span style="font-size:14.0pt">NIIT</span></b>
+        (1997-2000 batch)</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#CCCCFF" size="4"><span style="mso-bidi-font-size:10.0pt;font-family:Arial;mso-bidi-font-family:&quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Aggregate</span> <b>85.3%</b><o:p>
+        &nbsp;
+        </font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#000000"></o:p>
+        </font></p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size:14.0pt"><font color="#000000">Experience<o:p>
+              </o:p>
+              </font></span></b></p>
+            </td>
+          </tr>
+        </table>
+        <ul>
+          <li>
+            <p class="MsoNormal" style="text-align:justify"><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="4">&nbsp;
+        </font>
+        </font><font color="#FFCCCC" size="4">Undergone four months training from <b>AIMIL
+        Ltd</b>. “Naimex House” A-8 Mohan</font> <font color="#FFCCCC" size="4">Co-operative Industrial estate,
+        Mathura Road, New Delhi-110049.&nbsp; (as part of B.Sc.(Applied)
+        Instrumentation)</font></li>
+        </ul>
+        <p class="MsoNormal" style="text-align:justify"><font color="#FFFFFF" size="4">&nbsp;<o:p>
+        &nbsp;
+        </font></p>
+        <ul>
+          <li>
+            <p class="MsoNormal" style="text-align:justify"><font color="#FFCC99" size="4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp; Undergone
+            Five months training from <b>HCL Infosystems Ltd</b>, Noida-Sector 11,
+            U.P.
+        from 26.12.2002 to 31.05.2003 (As part of MCA programme). During this
+            period have worked on three projects:</font></li>
+        </ul>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>
+        1. </i></span><i><span style="mso-tab-count: 1"><u>Project</u></span></i>
+        Inventory Control of Toshiba Laptops</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Role</u></i></span><i><span style="mso-tab-count: 1">&nbsp;
+        </span></i>Software Developer Trainee</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1">  <u> <i>Number of person working in the
+        project</i></u></span>  3</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Software Environment</u></i></span> Windows
+        98/2000, Visual Basic 6.0, MS Access 2000</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none">&nbsp;</p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i>
+        2. </i></span><i><span style="mso-tab-count: 1"><u>Project</u></span></i>
+        Adding modules to HCLSupportnet website.</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Role</u></i></span><i><span style="mso-tab-count: 1">
+        </span></i>
+        Software Developer Trainee</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1">  <i>  <u> Number of person working in the
+        project</u></i></span>  3</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Software Environment</u></i></span> Windows
+        98/2000, ASP, SQL Server,
+        Java/VB Scripting&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4">&nbsp;<o:p>&nbsp;</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font color="#FFCC99" size="4"><i><span style="mso-tab-count: 1">
+        3.</span></i></font> <font color="#FFCC99" size="4"><i><span style="mso-tab-count: 1"><u>Project</u></span></i>
+        Adding Module to DPR (Daily Performance Report) project.</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Role</u></i></span><i><span style="mso-tab-count: 1">&nbsp;
+        </span></i>
+        Software Developer Trainee.</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1">  <i>  <u> Number of person working in the
+        project</u></i></span>  3</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#FFCC99" size="4"><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><span style="mso-tab-count: 1"><i><u>Software Environment</u></i></span> Windows
+        98/2000, Visual Basic 6.0, MS Access 2000</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font color="#000000">&nbsp;<o:p>
+        </o:p>
+        </font></p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt" align="center">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size:14.0pt"><font color="#000000">Projects
+              Done</font></span></b><font color="#000000"><i style="mso-bidi-font-style:
+  normal"><span style="font-size:14.0pt;mso-bidi-font-size:10.0pt;letter-spacing:
+  1.0pt"><o:p>
+              </o:p>
+              </span></i></font></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-align:justify;mso-outline-level:1;tab-stops:
+list .25in"><font size="4"><font color="#FFFFFF">1.</font><span style="mso-tab-count:3"><font color="#FFFFFF">&nbsp;&nbsp;</font><font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#FFFFFF">&nbsp;&nbsp;&nbsp;</font><font color="#99CC00">
+        </font></span><font color="#99CC00">Title <span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><b>Payroll System (</b>MS Access<b>)<span style="mso-spacerun: yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><o:p>
+        </o:p>
+        </b></font></font></p>
+        <p class="MsoNormal" style="margin-left:31.5pt;text-align:justify;text-indent:
+.5in;mso-outline-level:1"><font color="#99CC00" size="4"><span style="mso-tab-count: 1"><i><u>H/W
+        Environment</u></i></span> Intel Celeron.</font></p>
+        <p class="MsoNormal" style="margin-left:31.5pt;text-align:justify;text-indent:
+.5in;mso-outline-level:1"><font color="#99CC00" size="4"><span style="mso-tab-count: 1"><i><u>S/W
+        Environment</u></i></span> Windows 95,<b style="mso-bidi-font-weight:normal">
+        </b><span style="mso-bidi-font-weight:
+bold">Microsoft Access</span><span style="mso-tab-count: 1">.<o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:31.7pt;text-align:justify;text-indent:
+.5in;mso-outline-level:1"><font color="#99CC00" size="4"><span style="mso-tab-count: 1"><i><u>Description</u></i></span>
+        Payroll is a mean for developing pay structure of an</font></p>
+        <p class="MsoNormal" style="margin-left:31.7pt;text-align:justify;text-indent:
+.5in;mso-outline-level:1"><font color="#99CC00" size="4">Organization. The project has
+        been developed using MS Access.</font></p>
+        <p class="MsoNormal" style="margin-left:1.75in;text-align:justify"><font color="#FFFFFF" size="4">&nbsp;<o:p>
+        </o:p>
+        </font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:list .25in"><font size="4"><font color="#FFFFFF">2.<span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#CCCCFF">Title <span style="mso-spacerun: yes">&nbsp;</span><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;
+        </span><b>Video Library Application (</b>C++, Sybase in Unix platform<b>)<o:p>
+        &nbsp;
+        </b></font></font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:list .25in"><font color="#CCCCFF" size="4"><i><span style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <u>H/W Environment</u></span></i>
+        Unix server, LAN environment.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1"><font color="#CCCCFF" size="4"><i><span style="mso-tab-count: 1"><u>S/W Environment</u></span>
+        </i>Unix using Telnet in LAN environment, C++ as front-end, Sybase
+        Server as the back-end<span style="mso-bidi-font-weight:bold">.<o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify"><font color="#CCCCFF" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        The video library application includes management of video CD and Laser
+        Disc and customer details for the renting of video CD and LD. The
+        project has been developed in C++, DB library, and Sybase server in Unix
+        environment.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify"><span style="mso-spacerun: yes"><font color="#FFFFFF" size="4">&nbsp;</font></span></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:list .25in"><font size="4"><font color="#FFFFFF">3.<span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#00FFCC">Title<span style="mso-spacerun: yes">&nbsp; </span><span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;
+        </span><b>Video Library Application</b> (VC++, MS Access)</font></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#00FFCC" size="4"><i><u><span style="mso-tab-count: 1">H/W
+        Environment</span></u></i> Pentium II, 64 MB RAM.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#00FFCC" size="4"><i><u><span style="mso-tab-count: 1">S/W
+        Environment</span></u></i> Windows 98, MS Visual C++ as front-end and
+        MS-Access as back-end<span style="mso-bidi-font-weight:bold">.<o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;tab-stops:67.5pt"><font color="#00FFCC" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        The video library application includes management of video CD and Laser
+        Disc and customer details for the renting of video CD and LD. The
+        project has been developed in VC++, MS Access, Crystal Report in Windows
+        environment.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;tab-stops:67.5pt"><font color="#FFFFFF" size="4">&nbsp;<o:p>
+        </o:p>
+        </font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:list .25in"><font size="4"><font color="#FFFFFF">4.<span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#FFCCCC">Title<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><b>Student Administration </b>(Visual Basic 6.0, SQL Server 7.0)</font></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFCCCC" size="4"><i><u><span style="mso-tab-count: 1">H/W
+        Environment</span></u></i> Pentium III processor in LAN environment, 128
+        MB RAM.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFCCCC" size="4"><i><u><span style="mso-tab-count: 1">S/W
+        Environment</span></u></i> Windows NT Server, MS-Visual Basic 6.0 as
+        front-end and SQL Server 7.0 as the back-end<span style="mso-bidi-font-weight:
+bold">.<o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;tab-stops:67.5pt"><font color="#FFCCCC" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        Student administration includes managing the student’s detail, course
+        details and their performance. The project has been developed using
+        Visual Basic 6.0 and SQL Server 7.0</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;tab-stops:67.5pt"><font color="#FFFFFF" size="4">&nbsp;<o:p>
+        </o:p>
+        </font></p>
+        <p class="MsoNormal" style="text-align:justify;mso-outline-level:1;tab-stops:
+.25in"><font color="#FFFFFF" size="4">5.<span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span>Title<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><b>Hotel Information System<span style="mso-spacerun: yes">&nbsp;</span></b></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFFFFF" size="4"><i><u><span style="mso-tab-count: 1">H/W
+        Environment</span></u></i> Pentium III processor, 128 MB RAM</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFFFFF" size="4"><i><u><span style="mso-tab-count: 1">S/W
+        Environment</span></u></i> Windows 98, MS Access<span style="mso-bidi-font-weight:bold"><o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;tab-stops:67.5pt"><font color="#FFFFFF" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        Hotel management system include management of the customer’s details,
+        room available in the hotel and assignment of required room to the
+        customer. This project has been developed by taking into consideration
+        Software Engineering concepts using MS Access.</font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:.25in 63.0pt">&nbsp;</p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;text-indent:
+-67.5pt;tab-stops:0in list .25in left 45.0pt"><font size="4"><font color="#FFFFFF">6.<span style="mso-tab-count:
+3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#FFFFCC">Title<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><b>Reverse Engineering: Modification of<span style="mso-spacerun: yes">&nbsp;
+        </span>binary programs without source code</b></font></font></p>
+        <p class="MsoBodyTextIndent"><font color="#FFFFCC" size="4"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span style="mso-tab-count: 1"><u>H/W Environment</u></span></i> Pentium
+        III processor,128 MB RAM.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFFFCC" size="4"><i><u><span style="mso-tab-count: 1">S/W
+        Environment</span></u></i> Windows 98, W32Dasm, Norton Commander<span style="mso-bidi-font-weight:bold"><o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFFFCC" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        Modification of Binary programs without source code using disassembly,
+        microprogramming and other tools. The tools involved disassembler
+        (W32DASM), HEX Editor (Norton Commander). The basic idea behind
+        modification of a program without using its source code requires a good
+        knowledge of Assembly Language. All the tools that are available are
+        based on modification at low level, i.e. Assembly Language.</font></p>
+        <p class="MsoNormal" style="text-align:justify"><font color="#FFFFFF" size="4">&nbsp;<o:p>
+        </o:p>
+        </font></p>
+        <p class="MsoNormal" style="text-align:justify"><font size="4"><font color="#FFFFFF">7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </font><font color="#FF9999">Title&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Cartoon - The story
+        of Charlie ( </b></font><b><font color="#FF0000">P</font><font color="#00FF00">arrot
+        </font><font color="#FF9999">) </font> </b><font color="#FF9999">( Using Flash)&nbsp;<o:p>
+        &nbsp;</font></font></p>
+        <p class="MsoBodyTextIndent"><font color="#FF9999" size="4"><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;
+        <span style="mso-tab-count: 1"><u>H/W Environment</u></span></i> Pentium III
+        processor,128 MB RAM.</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FF9999" size="4"><i><span style="mso-tab-count: 1"><u>S/W Environment</u></span></i> Windows
+        98 SE, Macromedia Flash 5.0, IE5.0, MS&nbsp;&nbsp;</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FF9999" size="4"><i><span style="mso-tab-count: 1"><u>Description</u></span></i> 
+        This is a simple cartoon re-explaing that&nbsp;</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FF9999" size="4">&nbsp;&nbsp;&nbsp; &quot;If there is a
+        <b>will</b> there is a <b>way.</b>&quot;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FF9999" size="4">&nbsp;&nbsp; But....&nbsp; In a
+        different way. Just find out.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;<applet code="fphover.class" codebase="./" width="77" height="20">
+          <param name="color" value="#000080">
+          <param name="textcolor" value="#FFFFFF">
+          <param name="text" value="Download">
+          <param name="hovercolor" value="#00FF00">
+          <param name="effect" value="reverseGlow">
+          <param name="url" valuetype="ref" value="MM20.zip">
+        </applet> (73 kb..zip file)</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt">&nbsp;</p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:list .25in"><font size="4"><font color="#FFFFFF">8.<span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font><span style="mso-tab-count:3"><font color="#FFCC99">&nbsp;
+        </font></span><font color="#FFCC99">Title<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span><b>Multimedia Applications </b>(Visual Basic 6.0)</font></font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFCC99" size="4"><i><u><span style="mso-tab-count: 1">H/W
+        Environment</span></u></i> Pentium III, 128 MB RAM, Sound card, Speaker</font></p>
+        <p class="MsoNormal" style="margin-left:67.5pt;text-align:justify;mso-outline-level:
+1;tab-stops:67.5pt"><font color="#FFCC99" size="4"><i><u><span style="mso-tab-count: 1">S/W
+        Environment</span></u></i> Windows 98, Visual Basic 6.0.<span style="mso-bidi-font-weight:bold"><o:p>
+        </o:p>
+        </span></font></p>
+        <p class="MsoNormal" style="margin-left:31.5pt;text-align:justify;text-indent:
+.5in"><font color="#FFCC99" size="4"><i><u><span style="mso-tab-count: 1">Description</span></u></i>
+        The project consists of two applications:</font></p>
+        <p class="MsoNormal" style="text-align:justify"><font size="4"><font color="#FFFFFF"><span style="mso-spacerun:
+yes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><b><span style="mso-spacerun: yes">&nbsp;</span><span style="mso-tab-count:2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></b></font><b><font color="#FFCC66">1.<span style="mso-tab-count:
+1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></font></b><font color="#00FFCC">Futuristic</font><font color="#FFCC66">
+        </font><font color="#CCCCFF"> Media</font><font color="#FFCC66"> </font><font color="#FFFF00">
+        Player</font><font color="#FFCC66">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <applet code="fphover.class" codebase="./" width="90" height="20">
+          <param name="color" value="#000080">
+          <param name="textcolor" value="#FFFFFF">
+          <param name="hovercolor" value="#00FF00">
+          <param name="effect" value="reverseGlow">
+          <param name="text" value="Download">
+          <param name="url" valuetype="ref" value="FuturisticMediaPlayer.zip">
+        </applet>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ( 88 kb)</font></font></p>
+        <p class="MsoNormal" style="margin-left:1.0in;text-align:justify"><font color="#FFCC66" size="4">This
+        is a media player created using Visual Basic 6.0. This can be used to
+        run different media files like DivX, MP3, WAV, MOV, AVI, MPEG, CDA etc.
+        This can also play FLASH files.</font></p>
+        <p class="MsoNormal" style="margin-left:1.0in;text-align:justify"><font color="#FFCC66" size="4">This
+        player allows you to apply different skins to it. This player can save
+        all the settings of skins,</font></p>
+        <p class="MsoNormal" style="margin-left:1.0in;text-align:justify"><font color="#FFCC66" size="4">This
+        provides you with all basic function like repeat, shuffle, playlist as
+        well as some advanced options like playlist, A to B function.</font></p>
+        <p class="MsoNormal" style="text-align:justify"><font size="4"><b><font color="#FFFFFF"><span style="mso-tab-count:
+2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#FF9999">2.<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font></b><font color="#FF9999">Futuristic Picture </font><font color="#FF00FF">E</font><font color="#FFFFFF">f</font><font color="#FFCC99">f</font><font color="#FFFF00">e</font><font color="#FF9999">c</font><font color="#FFFFFF">t</font><font color="#FF9999">e</font><font color="#00FF00">r</font><font color="#FF9999">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <applet code="fphover.class" codebase="./" width="90" height="20">
+          <param name="color" value="#000080">
+          <param name="textcolor" value="#FFFFFF">
+          <param name="hovercolor" value="#00FF00">
+          <param name="effect" value="reverseGlow">
+          <param name="text" value="Download">
+          <param name="url" valuetype="ref" value="FuturisticPictureEffecter.zip">
+        </applet>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (167 kb)</font></font></p>
+        <p class="MsoNormal" style="margin-left:1.0in;text-align:justify"><font color="#FF9999" size="4">This
+        is a picture effecter. This can convert black and white picture into
+        colored. Convert picture to drawing, change the colors in RGB, add
+        special effects, invert picture color, convert colored picture to black
+        and white, allows you to apply changes to a selected portion, save the
+        picture, mix two pictures, apply morphing.</font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:67.5pt"><font color="#FFFFFF" size="4">&nbsp;</font></p>
+  </center>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size:14.0pt"><font color="#000000">Presentations
+              on</font></span></b></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-autospace: none; margin-left: .25in" align="left"><font color="#00FFFF" size="4">&nbsp;<o:p>
+        </font><font size="4" color="#33CCFF">
+        </o:p>
+        &nbsp;&nbsp;&nbsp; <span style="font-family:Wingdings">Ø<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>E-Commerce</font></p>
+        <p class="MsoNormal" style="text-indent: -.25in; mso-list: l8 level1 lfo10; tab-stops: list .75in; text-autospace: none; margin-left: .75in" align="left"><font size="4" color="#33CCFF"><span style="font-family:Wingdings">Ø<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>Working of different instruments</font></p>
+        <p class="MsoNormal" style="text-indent: -.25in; mso-list: l4 level2 lfo6; tab-stops: list 1.0in; margin-left: 1.0in" align="left"><font size="4" color="#33CCFF"><span style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>Scanning Tunneling Microscope (STM)</font></p>
+        <p class="MsoNormal" style="text-indent: -.25in; mso-list: l4 level2 lfo6; tab-stops: list 1.0in; margin-left: 1.0in" align="left"><font size="4" color="#33CCFF"><span style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>Automatic Compression Testing Machine (ACTM)</font></p>
+        <p class="MsoNormal" style="text-indent: -.25in; mso-list: l4 level2 lfo6; tab-stops: list 1.0in; margin-left: 1.0in" align="left"><font size="4" color="#33CCFF"><span style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>Digital Compression Testing Machine</font></p>
+        <p class="MsoNormal" style="text-indent: -.25in; mso-list: l4 level2 lfo6; tab-stops: list 1.0in; margin-left: 1.0in" align="left"><font size="4" color="#33CCFF"><span style="font-family:Wingdings">v<span style="font:7.0pt &quot;Times New Roman&quot;">&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></span>Soil Analysis using Sieve Shaker &amp; Plummet Balance</font></p>
+  <center>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><b><span style="font-size:14.0pt"><font color="#000000" size="4">&nbsp;</font></span></b></p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt">
+              <p class="MsoNormal" style="text-autospace: none" align="center"><b><span style="font-size:14.0pt"><font color="#000000" size="4">Technical
+              Skills</font></span></b></p>
+            </td>
+          </tr>
+        </table>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4" color="#CCFF99"><b>Operating
+        Systems:</b> </font><font color="#FFFFCC" size="4"> MS-DOS, MS-Windows
+        (98/ME/NT/2000/XP), Unix and LINUX.</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4" color="#C0C0C0"><b>Programming
+        Languages:</b>  </font><font color="#E0E0E0" size="4"> BASIC, Fortran, C, C++, Interactive C, Visual C++, Java
+        and Visual Basic.</font></p>
+        <p class="MsoNormal" style="text-align:justify;tab-stops:center -103.5pt"><b><font size="4" color="#00CCFF">Concepts
+        Known:</font></b> <font color="#00FFFF" size="4"> Software Engineering, Object Oriented Programming,
+        RDBMS,
+        Artificial Intelligence, Computer Organization and Architecture,
+        Computer Networks, Reverse Engineering.</font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><b><font size="4" color="#999999">Tools:</font></b>
+        <font color="#C0C0C0" size="4">
+        THR 68HC11 Simulator, 8085 microprocessor simulator, W32Dasm (Disassembler),
+        Norton Commander( HEX Editor).<span style="mso-spacerun: yes">&nbsp;</span></font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4"><b><font color="#FFFF99">Web
+        Designing:</font><font color="#FFFFCC"> ASP (VB scripting, Java
+        scripting), </font></b><font color="#FFFFCC">HTML, Front Page, Macromedia Flash 5.0.</font><b><font color="#FFFFCC"><o:p>
+        </font><font color="#CCCCFF">
+        </o:p>
+        </font>
+        </b></font></p>
+        <p class="MsoNormal" style="text-align:justify;text-autospace:none"><font size="4"><font color="#CC99FF"><b>RDBMS:</b>&nbsp;</font><font color="#CCCCFF">
+        Sybase, MS Access, SQL Server 7.0</font><b><font color="#CCCCFF">.<o:p>
+        </font><font color="#FFFFFF">
+        </o:p>
+        </font>
+        </b></font></p>
+        <p class="MsoNormal" style="text-autospace: none; margin-left: .25in" align="center"><font size="4"><font color="#FFFFFF">&nbsp;</font><span style="mso-bidi-font-size:10.0pt;
+font-family:Garamond;color:black;text-decoration:none;text-underline:none" class="MsoHyperlink"><font color="#FFFFFF"><o:p>
+        </font><font color="#000000"></o:p>
+        </font></span></font></p>
+        <table border="0" cellspacing="0" cellpadding="0" bgcolor="#e0e0e0" style="background:
+ #E0E0E0;border-collapse:collapse;mso-padding-alt:0in 5.4pt 0in 5.4pt">
+          <tr>
+            <td width="590" valign="top" style="width:6.15in;padding:0in 5.4pt 0in 5.4pt">
+              <p class="MsoNormal" style="mso-margin-top-alt: auto; mso-margin-bottom-alt: auto" align="center"><b><span style="font-size:14.0pt"><font color="#000000">Personal
+              Details</font></span></b><span class="MsoHyperlink"><i style="mso-bidi-font-style:normal"><span style="font-size:14.0pt;mso-bidi-font-size:10.0pt;font-family:Garamond;
+  color:black;letter-spacing:1.0pt;text-decoration:none;text-underline:none"><font color="#000000"><o:p>
+              </font><font color="#00FFCC">
+              </o:p>
+              </font>
+              </span></i></span></p>
+            </td>
+          </tr>
+        </table>
+  </center>
+      <p class="MsoNormal" style="text-autospace: none" align="left"><font size="4"><font color="#FFFFFF"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </b>
+      </font><b><font color="#00FFCC">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#00CC99">Atanu Pal&nbsp;</font></b></font></p>
+        <p class="MsoNormal" style="text-autospace: none" align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Father’s
+        Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#00CC99">Sh. A.B. Pal</font><font color="#00FFCC"><o:p></o:p>
+        </font></b></font></p>
+        <p class="MsoNormal" style="text-autospace: none" align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Date
+        of Birth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="mso-tab-count: 1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </span></font><font color="#00CC99">2nd Jan 1980&nbsp;( 12:35 IST )</font></b></font></p>
+        <p class="MsoNormal" style="text-autospace: none" align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Phone Number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font color="#00CC99">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        011-26250829</font></b></font></p>
+        <p class="MsoNormal" style="text-autospace: none" align="left"><font color="#00FFCC" size="4"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        e-mail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="mailto:pal_atanu@hotmail.com">pal_atanu@hotmail.com</a></b></font></p>
+        <h1 align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Nationality&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        : <span style="mso-tab-count:2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font><span style="mso-tab-count:2"><font color="#00CC99">
+        </font></span><font color="#00CC99">Indian<o:p>
+        </font><font color="#00FFCC">
+        </o:p>
+        </font>
+        </b></font></h1>
+      <h1 align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      Sex&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      : <span style="mso-tab-count:3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></font><font color="#00CC99">Male&nbsp;</font><span style="mso-tab-count:1"><font color="#00FFCC">&nbsp;&nbsp;</font></span></b></font></h1>
+      <h1 align="left"><font size="4"><b><font color="#00FFCC">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Marital Status&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :<span style="mso-tab-count:1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span></font><font color="#00CC99">Unmarried</font></b></font></h1>
+  <center>
+  <p style="text-align: justify; line-height: 100%"><font color="#000000">Atanu
+  Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal</font>
+        <p style="text-align: justify; line-height: 100%"><font color="#000000">Atanu
+        Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu
+        Pal</font>
+        <p style="text-align: justify; line-height: 100%"><font color="#000000">Atanu
+        Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu
+        Pal</font>
+        <p style="text-align: justify; line-height: 100%"><font color="#000000">&nbsp;</font>
+  <hr>
+  <p style="line-height: 100%" align="center"><font face="Impact" size="7" color="#0000FF">Download
+  Section</font></p>
+  <hr>
+        <p style="text-align: justify; line-height: 100%"><font color="#000000">Atanu
+        Pal 
+        <applet code="fphover.class" codebase="./" width="160" height="24">
+          <param name="color" value="#FF0000">
+          <param name="hovercolor" value="#00FF00">
+          <param name="text" value="Charlie (cartoon)">
+          <param name="url" valuetype="ref" value="MM20.zip">
+          <param name="textcolor" value="#000000">
+          <param name="font" value="Dialog">
+          <param name="fontstyle" value="regular">
+          <param name="fontsize" value="14">
+          <param name="effect" value="reverseGlow">
+        </applet>
+        tan 
+        <applet code="fphover.class" codebase="./" width="160" height="24">
+          <param name="color" value="#FF0000">
+          <param name="hovercolor" value="#00FF00">
+          <param name="text" value="Futuristic Media Player">
+          <param name="url" valuetype="ref" value="FuturisticMediaPlayer.zip">
+          <param name="textcolor" value="#000000">
+          <param name="font" value="Dialog">
+          <param name="fontstyle" value="regular">
+          <param name="fontsize" value="14">
+          <param name="effect" value="glow">
+        </applet>
+        u P<applet code="fphover.class" codebase="./" width="160" height="24">
+          <param name="color" value="#FF0000">
+          <param name="hovercolor" value="#00FF00">
+          <param name="text" value="Futuristic Picture Effecter">
+          <param name="textcolor" value="#000000">
+          <param name="font" value="Dialog">
+          <param name="fontstyle" value="regular">
+          <param name="fontsize" value="14">
+          <param name="effect" value="reverseGlow">
+          <param name="url" valuetype="ref" value="FuturisticPictureffecter.zip">
+        </applet>
+        a</font>
+  <hr>
+        <p style="text-align: justify; line-height: 100%">&nbsp;
+        <p style="text-align: justify; line-height: 100%">&nbsp;
+        <p style="text-align: justify; line-height: 100%"><font color="#00FF00">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Designed and developed by:</font>
+        <p style="text-align: justify; line-height: 100%"><font color="#000000">l
+        Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal Atanu Pal</font></td>
+    </tr>
+    <tr>
+      <td valign="top" width="595" colspan="2">
+      <img border="0" src="atanugold2.jpg" alt="Atanu Pal" width="731" height="182">
+      </td>
+    </tr>
+  </table>
+</div>
+
+  <p>&nbsp;</p>
+
+</body>
+
+</html>

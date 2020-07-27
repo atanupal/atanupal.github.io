@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+
+
+
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function checkCookie() {
+    var user = getCookie("username");
+    if (user != "") {
+       // alert("Welcome again " + user);
+    } else {
+        user = prompt("Please enter your name:", "");
+        if (user != "" && user != null) {
+            setCookie("username", user, 365);
+        }
+    }
+}
+
+
+
+
+
+function refresh1()
+{
+
+var temp= document.cookie.indexOf('wallpaper1=');
+
+if (temp==-1)
+{
+document.cookie = 'wallpaper1=wall1';
+radiobtn = document.getElementById("wall1");
+radiobtn.checked = true;
+document.body.style.background = 'url(wall1.jpg) repeat center center';
+}
+else{
+var theme = getCookie("wallpaper1");
+
+radiobtn = document.getElementById(theme);
+radiobtn.checked = true;
+document.body.style.background = 'url('+theme+'.jpg) repeat center center';
+}
+
+
+
+}
+
+
+function func(v)
+{
+
+
+    
+  document.body.style.background = 'url('+v+'.jpg) repeat center center';
+ document.cookie = 'wallpaper1=' + v;
+  
+  
+  
+}
+/*
+$(function() {
+  $('input:radio').change(function() {
+    $('#colorselected').html(this.value);
+  });
+});
+*/
+
+</script>
+
+
+
+
+<style>
+
+	
+	
+	
+table {
+    margin: 0 auto;
+}
+
+
+ul.swatch-colors {
+  list-style: none;
+}
+ul.swatch-colors li{
+  display:inline-block;
+  margin:5px;
+  padding:0
+ 
+}
+.swatch-colors li .swatch-img {
+  cursor:pointer;
+  display:block;
+}
+input[type=radio] {
+  display: none;
+}
+input:checked + label img {
+  border:2px solid #00f;
+}
+a {
+    text-decoration:none;
+}
+
+a:hover {
+   text-decoration:underline;
+}
+</style>
+
+
+
+</head>
+
+<body onload="refresh1()" lang=EN-US
+link=blue vlink=purple>
+
+<center>
+<table border="0"  width=100%   >
+<tr>
+<td><center>
+
+<img src="deals.jpg" height="142" width="242"> 
+</center>
+</td>
+
+<td>
+<center>
+<img src="deals.gif" height="142" width="242"> 
+</center></td>
+<td>
+<center><img src="deals.jpg" height="142" width="242"> 
+</center></td>
+</tr>
+</table>
+</center>
+
+	 <table border="0"  cellspacing=10 cellpadding=0 width="100%">
+
+	<tr>
+<td>
+<h1>
+<center>  </a></center>
+</h1>
+</td>
+
+
+</tr> 
+
+<tr>
+<td>
+<h1>
+<center><a href="getdealsfinal.html"> Get Deals </a></center>
+</h1>
+</td>
+
+
+</tr>
+
+<tr>
+<td>
+<h1>
+<center><a href="uploaddealall.html"> Upload Deal </a></center>
+</h1>
+</td>
+
+</tr>
+
+<tr>
+<td>
+<h1>
+<center><a href="searchdealsfinal.html"> Search Deals </center>
+</h1>
+</td>
+
+
+</tr>
+<tr>
+<td>
+<h6>
+<center><a href="getdealsall.html"> Get All Deals (Admin) </a></center>
+</h6>
+</td>
+
+</tr> 
+
+<tr>
+<td>
+<h6>
+<center><a href="getdealsadmin.html"> Get Deals (Admin) </a></center>
+</h6>
+</td>
+
+</tr> 
+
+
+<tr>
+<td>
+<h1>
+<center></center>
+</h1>
+</td>
+
+
+</tr>
+</table>
+
+	 <center>
+	 
+	 
+<table border="0"  style="max-width:800px;">
+<tr>
+<td>
+<center><h4> <font color="black"><label> Designed and Developed by </label></font></h2>
+</center></td>
+
+
+
+
+<td>
+<center>
+<img src="atanulogo.gif" height="100" width="326"> 
+</center></td>
+</tr>
+</table>
+</center>
+
+
+
+</table>
+	
+		<ul id="thumbnails1" class="noul swatch-colors">
+	<table>
+<tr>
+<td>	
+		
+ <label for="select" class="select">
+      <img src="select.jpg" class="full swatch-img" alt="Select" title="Select" width="100" height="100">
+    </label>
+	
+	</td>
+  
+<td>
+  <li>
+  
+    <input name="swatch_color" value="wall1" type="radio" id="wall1" onClick="func(this.value);">
+    <label for="wall1" class="lbswatches">
+      <img src="wall1_small.jpg" class="full swatch-img" alt="Wall1" title="Wall1" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  
+  <li>
+    <input name="swatch_color" value="wall2" type="radio" id="wall2" onClick="func(this.value);">
+    <label class="lbswatches" for="wall2">
+      <img src="wall2_small.jpg" class="full swatch-img" alt="Wall2" title="Wall2" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall3" type="radio" id="wall3" onClick="func(this.value);">
+    <label class="lbswatches" for="wall3">
+      <img src="wall3_small.jpg" class="full swatch-img" alt="Wall3" title="Wall3" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall4"  type="radio" id="wall4" onClick="func(this.value);">
+    <label class="lbswatches" for="wall4">
+      <img src="wall4_small.jpg" class="full swatch-img" alt="Wall4" title="Wall4" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall5"  type="radio" id="wall5" onClick="func(this.value);">
+    <label class="lbswatches" for="wall5">
+      <img src="wall5_small.jpg" class="full swatch-img" alt="Wall5" title="Wall5" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  </tr>
+  </table>
+</ul>
+<h2 id="colorselected"></h2>
+
+
+	
+	 
+</body>
+
+ 
+
+
+</html>

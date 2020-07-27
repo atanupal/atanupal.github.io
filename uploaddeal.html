@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="upload10.js"></script>
+<script>
+
+loadLib("upload10");
+
+
+</script>
+
+
+
+
+</head>
+
+<body    bgcolor="#BFB3FF"  background=orange-desktop-background.jpg lang=EN-US
+link=blue vlink=purple>
+
+
+
+
+	 <table border="1">
+	 
+
+<tr>
+<td>Summary:  </td>
+
+<td>Description: </td>
+
+<td>Deal Price: </td>
+
+<td>Max Price: </td>
+
+
+<td>Link: </td>
+
+<td> Picture : </td>
+
+
+</tr>
+
+
+	 
+
+<tr>
+
+
+<td>Summary : <input id="summary" type="text" name="summary"></td>
+
+<td>Description : <input id="description" type="text" name="description"></td>
+
+<td>Deal Price :  <input id="dealprice" type="text" name="dealprice"></td>
+
+<td>Max Price : <input id="maxprice" type="text" name="maxprice"> </td>
+<td>Link : <input id="url" type="text" name="url"></td>
+
+<td><button id="getpictures" onclick="geturl()">Get Pictures from Link</button></td>
+
+</tr>
+
+<tr>
+
+<td><img id="img1"   alt="Picture 1"  style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic1" name="picture" value="1" checked> <input id="p1" type="text" name="p1"></td>
+
+<td><img id="img2" alt="Picture 2" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic2" name="picture" value="2" > <input id="p2" type="text" name="p2"></td>
+
+
+<td><img id="img3"  alt="Picture 3" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic3" name="picture" value="3" > <input id="p3" type="text" name="p3"></td>
+
+<td><img id="img4"  alt="Picture 4" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic4" name="picture" value="4" > <input id="p4" type="text" name="p4"></td>
+
+<td><img id="img5"   alt="Picture 5" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic5" name="picture" value="5" > <input id="p5" type="text" name="p5"></td>
+
+
+<td><img id="img6"  alt="Picture 6" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic6" name="picture" value="6" > <input id="p6" type="text" name="p6"></td>
+
+</tr>
+<tr>
+
+<td><img id="img7"   alt="Picture 7"  style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic7" name="picture" value="7" > <input id="p7" type="text" name="p7"></td>
+
+
+<td><img id="img8" alt="Picture 8" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic8" name="picture" value="8" > <input id="p8" type="text" name="p8"></td>
+
+
+<td><img id="img9"  alt="Picture 9" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic9" name="picture" value="9" > <input id="p9" type="text" name="p9"></td>
+
+
+<td><img id="img10"  alt="Picture 10" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic10" name="picture" value="10" ><input id="p10" type="text" name="p10"></td>
+
+
+<td><img id="img11"   alt="Picture 11" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic11" name="picture" value="11" > <input id="p11" type="text" name="p11"></td>
+
+
+<td><img id="img12"  alt="Picture 12" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic12" name="picture" value="12" > <input id="p12" type="text" name="p12"></td>
+
+
+</tr>
+
+<tr>
+
+<td><img id="img13"   alt="Picture 13"  style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic13" name="picture" value="13" ><input id="p13" type="text" name="p13"></td>
+
+<td><img id="img14" alt="Picture 14" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic14" name="picture" value="14" ><input id="p14" type="text" name="p14"></td>
+
+<td><img id="img15"  alt="Picture 15" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic15" name="picture" value="15" > <input id="p15" type="text" name="p15"></td>
+
+<td><img id="img16"  alt="Picture 16" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic16" name="picture" value="16" > <input id="p16" type="text" name="p16"></td>
+
+<td><img id="img17"   alt="Picture 17" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic17" name="picture" value="17" > <input id="p17" type="text" name="p17"></td>
+
+<td><img id="img18"  alt="Picture 18" style="width:150px;height:115px;"><br>
+<input type="radio" id = "pic18" name="picture" value="18" > <input id="p18" type="text" name="p18"></td>
+
+
+</tr>
+<tr>
+<td>
+<label>Posted By</lable><input id="postedby" type="text" name="postedby"></td>
+</tr>
+
+
+</table>
+
+<button id="uload" onclick="upload()">Upload Deal</button>
+
+
+<button id="temp" onclick="temp()"> temp</button>
+
+<input id="result" type="text" name="result">
+	 
+</body>
+
+ 
+
+
+</html>

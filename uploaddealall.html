@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.js"></script>
+
+<script src="upload10all.js"></script>
+
+
+
+
+<script>
+
+loadLib("upload10all");
+
+<style>
+textarea {
+    overflow-y: scroll;
+    height: 100px;
+    resize: none; /* Remove this if you want the user to resize the textarea */
+}
+body {
+   
+    margin-top: 100px;
+}
+</style>
+</script>
+
+<style>
+
+table {
+    margin: 0 auto;
+}
+img{
+   
+    object-fit: contain;
+    }
+	
+input {
+    border: 1;
+    background: transparent /* the important bit */
+}
+textarea
+ {
+    border: 1;
+    background: transparent /* the important bit */
+}
+button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 1;
+    cursor:pointer;
+    overflow: hidden;
+    outline:1;
+}
+
+
+ul.swatch-colors {
+  list-style: none;
+}
+ul.swatch-colors li{
+  display:inline-block;
+  margin:5px;
+  padding:0
+}
+.swatch-colors li .swatch-img {
+  cursor:pointer;
+  display:block;
+}
+input[type=radio] {
+  display: none;
+}
+input:checked + label img {
+  border:2px solid #00f;
+}
+
+a {
+    text-decoration:none;
+}
+
+a:hover {
+   text-decoration:underline;
+}
+
+
+</style>
+	
+</head>
+
+<body    bgcolor="#BFB3FF" onload="hidepic()" lang=EN-US
+link=blue vlink=purple>
+
+
+<center>
+<table border="0" width=100% align="center">
+<tr>
+<td><center>
+
+<img src="deals.jpg" height="142" width="242"> 
+</center>
+</td>
+
+<td>
+<center>
+<img src="deals.gif" height="142" width="242"> 
+</center></td>
+<td>
+<center><img src="deals.jpg" height="142" width="242"> 
+</center></td>
+</tr>
+</table>
+</center>
+
+
+
+<center>
+
+	 <table border="1" id="tabletop">
+	 
+
+<tr>
+<td colspan="2"><center> <label>Upload Deal</label></center>  </td>
+
+
+
+
+
+
+</tr>
+
+
+	 
+
+<tr>
+
+
+<td>Summary : <input id="summary" type="text" name="summary"></td>
+
+<td><center>Description : </center><textarea rows="8" cols="50" id="description" name="description" ></textarea></td>
+</tr>
+
+<tr>
+
+<td>Deal Price :  <input id="dealprice" type="text" name="dealprice"></td>
+
+<td>Max Price : <input id="maxprice" type="text" name="maxprice"> </td>
+
+</tr>
+
+
+<tr>
+
+
+<td><center>Link : </center><textarea rows="8" cols="50" id="url" name="url" ></textarea></td>
+
+<td><button id="getpictures" onclick="geturl()">Get Pictures from Link</button></td>
+
+</tr>
+
+<tr>
+</table>
+
+
+
+
+<table id="table1" >
+<tr>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic1" type="radio" id="pic1" onClick="func2(this.value);">
+    <label for="pic1" class="lbswatches">
+     <img id="img1" class="full swatch-img"  alt="Picture 1"  width="200" height="200"> 
+	 <input id="p1" type="text" name="p1">
+    </label>
+  </li>
+</td>
+<td>  
+<li>
+    <input name="swatch_color" value="pic2" type="radio" id="pic2" onClick="func2(this.value);">
+    <label for="pic2" class="lbswatches">
+     <img id="img2" class="full swatch-img"  alt="Picture 2"  width="200" height="200"> 
+     <input id="p2" type="text" name="p2">
+	 </label>
+  </li>
+  </td>
+  
+  <td>
+<li>
+    <input name="swatch_color" value="pic3" type="radio" id="pic3" onClick="func2(this.value);">
+    <label for="pic3" class="lbswatches">
+     <img id="img3" class="full swatch-img"  alt="Picture 3"  width="200" height="200"> 
+     <input id="p3" type="text" name="p3">
+	 </label>
+  </li>
+</td>
+<td>  
+<li>
+    <input name="swatch_color" value="pic4" type="radio" id="pic4" onClick="func2(this.value);">
+    <label for="pic4" class="lbswatches">
+     <img id="img4" class="full swatch-img"  alt="Picture 4"  width="200" height="200"> 
+     <input id="p4" type="text" name="p4">
+	 </label>
+  </li>
+  </td>
+  
+  <td>
+<li>
+    <input name="swatch_color" value="pic5" type="radio" id="pic5" onClick="func2(this.value);">
+    <label for="pic5" class="lbswatches">
+     <img id="img5" class="full swatch-img"  alt="Picture 5"  width="200" height="200"> 
+     <input id="p5" type="text" name="p5">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic6" type="radio" id="pic6" onClick="func2(this.value);">
+    <label for="pic6" class="lbswatches">
+     <img id="img6" class="full swatch-img"  alt="Picture 6"  width="200" height="200"> 
+     <input id="p6" type="text" name="p6">
+	 </label>
+  </li>
+</td>
+  
+  
+
+
+
+
+</tr>
+<tr>
+<td>
+<li>
+    <input name="swatch_color" value="pic7" type="radio" id="pic7" onClick="func2(this.value);">
+    <label for="pic7" class="lbswatches">
+     <img id="img7" class="full swatch-img"  alt="Picture 7"  width="200" height="200"> 
+     <input id="p7" type="text" name="p7">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic8" type="radio" id="pic8" onClick="func2(this.value);">
+    <label for="pic8" class="lbswatches">
+     <img id="img8" class="full swatch-img"  alt="Picture 8"  width="200" height="200"> 
+     <input id="p8" type="text" name="p8">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic9" type="radio" id="pic9" onClick="func2(this.value);">
+    <label for="pic9" class="lbswatches">
+     <img id="img9" class="full swatch-img"  alt="Picture 9"  width="200" height="200"> 
+     <input id="p9" type="text" name="p9">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic10" type="radio" id="pic10" onClick="func2(this.value);">
+    <label for="pic10" class="lbswatches">
+     <img id="img10" class="full swatch-img"  alt="Picture 10"  width="200" height="200"> 
+     <input id="p10" type="text" name="p10">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic11" type="radio" id="pic11" onClick="func2(this.value);">
+    <label for="pic11" class="lbswatches">
+     <img id="img11" class="full swatch-img"  alt="Picture 11"  width="200" height="200"> 
+     <input id="p11" type="text" name="p11">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic12" type="radio" id="pic12" onClick="func2(this.value);">
+    <label for="pic12" class="lbswatches">
+     <img id="img12" class="full swatch-img"  alt="Picture 12"  width="200" height="200"> 
+     <input id="p12" type="text" name="p12">
+	 </label>
+  </li>
+</td>
+
+
+</tr>
+
+<tr>
+<td>
+<li>
+    <input name="swatch_color" value="pic13" type="radio" id="pic13" onClick="func2(this.value);">
+    <label for="pic13" class="lbswatches">
+     <img id="img13" class="full swatch-img"  alt="Picture 13"  width="200" height="200"> 
+     <input id="p13" type="text" name="p13">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic14" type="radio" id="pic14" onClick="func2(this.value);">
+    <label for="pic14" class="lbswatches">
+     <img id="img14" class="full swatch-img"  alt="Picture 14"  width="200" height="200"> 
+     <input id="p14" type="text" name="p14">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic15" type="radio" id="pic15" onClick="func2(this.value);">
+    <label for="pic15" class="lbswatches">
+     <img id="img15" class="full swatch-img"  alt="Picture 15"  width="200" height="200"> 
+     <input id="p15" type="text" name="p15">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic16" type="radio" id="pic16" onClick="func2(this.value);">
+    <label for="pic16" class="lbswatches">
+     <img id="img16" class="full swatch-img"  alt="Picture 16"  width="200" height="200"> 
+     <input id="p16" type="text" name="p16">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic17" type="radio" id="pic17" onClick="func2(this.value);">
+    <label for="pic17" class="lbswatches">
+     <img id="img17" class="full swatch-img"  alt="Picture 17"  width="200" height="200"> 
+     <input id="p17" type="text" name="p17">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic18" type="radio" id="pic18" onClick="func2(this.value);">
+    <label for="pic18" class="lbswatches">
+     <img id="img18" class="full swatch-img"  alt="Picture 18"  width="200" height="200"> 
+     <input id="p18" type="text" name="p18">
+	 </label>
+  </li>
+</td>
+
+
+</tr>
+
+
+
+
+
+
+
+<tr>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic19" type="radio" id="pic19" onClick="func2(this.value);">
+    <label for="pic19" class="lbswatches">
+     <img id="img19" class="full swatch-img"  alt="Picture 19"  width="200" height="200"> 
+	 <input id="p19" type="text" name="p19">
+    </label>
+  </li>
+</td>
+<td>  
+<li>
+    <input name="swatch_color" value="pic20" type="radio" id="pic20" onClick="func2(this.value);">
+    <label for="pic20" class="lbswatches">
+     <img id="img20" class="full swatch-img"  alt="Picture 20"  width="200" height="200"> 
+     <input id="p20" type="text" name="p20">
+	 </label>
+  </li>
+  </td>
+  
+  <td>
+<li>
+    <input name="swatch_color" value="pic21" type="radio" id="pic21" onClick="func2(this.value);">
+    <label for="pic21" class="lbswatches">
+     <img id="img21" class="full swatch-img"  alt="Picture 21"  width="200" height="200"> 
+     <input id="21" type="text" name="p21">
+	 </label>
+  </li>
+</td>
+<td>  
+<li>
+    <input name="swatch_color" value="pic22" type="radio" id="pic22" onClick="func2(this.value);">
+    <label for="pic22" class="lbswatches">
+     <img id="img22" class="full swatch-img"  alt="Picture 22"  width="200" height="200"> 
+     <input id="p22" type="text" name="p22">
+	 </label>
+  </li>
+  </td>
+  
+  <td>
+<li>
+    <input name="swatch_color" value="pic23" type="radio" id="pic23" onClick="func2(this.value);">
+    <label for="pic23" class="lbswatches">
+     <img id="img23" class="full swatch-img"  alt="Picture 23"  width="200" height="200"> 
+     <input id="p23" type="text" name="p23">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic24" type="radio" id="pic24" onClick="func2(this.value);">
+    <label for="pic24" class="lbswatches">
+     <img id="img24" class="full swatch-img"  alt="Picture 24"  width="200" height="200"> 
+     <input id="p24" type="text" name="p24">
+	 </label>
+  </li>
+</td>
+  
+  
+
+
+
+
+</tr>
+<tr>
+<td>
+<li>
+    <input name="swatch_color" value="pic25" type="radio" id="pic25" onClick="func2(this.value);">
+    <label for="pic25" class="lbswatches">
+     <img id="img25" class="full swatch-img"  alt="Picture 25"  width="200" height="200"> 
+     <input id="p25" type="text" name="p25">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic26" type="radio" id="pic26" onClick="func2(this.value);">
+    <label for="pic26" class="lbswatches">
+     <img id="img26" class="full swatch-img"  alt="Picture 26"  width="200" height="200"> 
+     <input id="p26" type="text" name="p26">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic27" type="radio" id="pic27" onClick="func2(this.value);">
+    <label for="pic27" class="lbswatches">
+     <img id="img27" class="full swatch-img"  alt="Picture 27"  width="200" height="200"> 
+     <input id="p27" type="text" name="p27">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic28" type="radio" id="pic28" onClick="func2(this.value);">
+    <label for="pic28" class="lbswatches">
+     <img id="img28" class="full swatch-img"  alt="Picture 28"  width="200" height="200"> 
+     <input id="p28" type="text" name="p28">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic29" type="radio" id="pic29" onClick="func2(this.value);">
+    <label for="pic29" class="lbswatches">
+     <img id="img29" class="full swatch-img"  alt="Picture 29"  width="200" height="200"> 
+     <input id="p29" type="text" name="p29">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic30" type="radio" id="pic30" onClick="func2(this.value);">
+    <label for="pic30" class="lbswatches">
+     <img id="img30" class="full swatch-img"  alt="Picture 30"  width="200" height="200"> 
+     <input id="p30" type="text" name="p30">
+	 </label>
+  </li>
+</td>
+
+
+</tr>
+
+<tr>
+<td>
+<li>
+    <input name="swatch_color" value="pic31" type="radio" id="pic31" onClick="func2(this.value);">
+    <label for="pic31" class="lbswatches">
+     <img id="img31" class="full swatch-img"  alt="Picture 31"  width="200" height="200"> 
+     <input id="p31" type="text" name="p31">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic32" type="radio" id="pic32" onClick="func2(this.value);">
+    <label for="pic32" class="lbswatches">
+     <img id="img32" class="full swatch-img"  alt="Picture 32"  width="200" height="200"> 
+     <input id="p32" type="text" name="p32">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic33" type="radio" id="pic33" onClick="func2(this.value);">
+    <label for="pic33" class="lbswatches">
+     <img id="img33" class="full swatch-img"  alt="Picture 33"  width="200" height="200"> 
+     <input id="p33" type="text" name="p33">
+	 </label>
+  </li>
+</td>
+<td>
+<li>
+    <input name="swatch_color" value="pic34" type="radio" id="pic34" onClick="func2(this.value);">
+    <label for="pic34" class="lbswatches">
+     <img id="img34" class="full swatch-img"  alt="Picture 34"  width="200" height="200"> 
+     <input id="p34" type="text" name="p34">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic35" type="radio" id="pic35" onClick="func2(this.value);">
+    <label for="pic35" class="lbswatches">
+     <img id="img35" class="full swatch-img"  alt="Picture 35"  width="200" height="200"> 
+     <input id="p35" type="text" name="p35">
+	 </label>
+  </li>
+</td>
+
+<td>
+<li>
+    <input name="swatch_color" value="pic36" type="radio" id="pic36" onClick="func2(this.value);">
+    <label for="pic36" class="lbswatches">
+     <img id="img36" class="full swatch-img"  alt="Picture 36"  width="200" height="200"> 
+     <input id="p36" type="text" name="p36">
+	 </label>
+  </li>
+</td>
+
+
+</tr>
+</table>
+
+
+<table border="1" id="tablebottom">
+
+<tr>
+
+<td><label>Uploaded By</lable><input id="uploadname" type="text" name="uploadname"></td>
+<td><label>Uploademail</lable><input id="uploademail" type="text" name="uploademail"></td>
+</tr>
+<tr>
+<td colspan="2"><center>
+<button id="uload" onclick="upload()">Upload Deal</button></center></td>
+
+
+
+</tr>
+
+
+	
+	
+	
+	</center>
+	<center>
+	</table >
+<table border="0" id="Table5">
+
+<tr>
+<td>
+<h2><label id="text1"></label></h2>
+
+
+</td></tr>
+
+
+	</table> 
+	</center>
+	<center>
+<table id="table6" border="0" width=100%>
+<tr>
+<td><center>
+
+<img src="deals.jpg" height="142" width="242"> 
+</center>
+</td>
+
+<td>
+<center>
+<img src="deals.gif" height="142" width="242"> 
+</center></td>
+<td>
+<center><img src="deals.jpg" height="142" width="242"> 
+</center></td>
+</tr>
+</table>
+</center>
+	
+<center><h1><a href="deals.html">Home</a></h1></center>	
+		<ul id="thumbnails1" class="noul swatch-colors">
+	<table>
+<tr>
+<td>	
+		
+ <label for="select" class="select">
+      <img src="select.jpg" class="full swatch-img" alt="Select" title="Select" width="100" height="100">
+    </label>
+	
+	</td>
+  
+<td>
+  <li>
+  
+    <input name="swatch_color" value="wall1" type="radio" id="wall1" onClick="func(this.value);">
+    <label for="wall1" class="lbswatches">
+      <img src="wall1_small.jpg" class="full swatch-img" alt="Wall1" title="Wall1" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  
+  <li>
+    <input name="swatch_color" value="wall2" type="radio" id="wall2" onClick="func(this.value);">
+    <label class="lbswatches" for="wall2">
+      <img src="wall2_small.jpg" class="full swatch-img" alt="Wall2" title="Wall2" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall3" type="radio" id="wall3" onClick="func(this.value);">
+    <label class="lbswatches" for="wall3">
+      <img src="wall3_small.jpg" class="full swatch-img" alt="Wall3" title="Wall3" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall4"  type="radio" id="wall4" onClick="func(this.value);">
+    <label class="lbswatches" for="wall4">
+      <img src="wall4_small.jpg" class="full swatch-img" alt="Wall4" title="Wall4" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall5"  type="radio" id="wall5" onClick="func(this.value);">
+    <label class="lbswatches" for="wall5">
+      <img src="wall5_small.jpg" class="full swatch-img" alt="Wall5" title="Wall5" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  </tr>
+  </table>
+</ul>
+<h2 id="colorselected"></h2>
+	
+</body>
+
+ 
+
+
+</html>

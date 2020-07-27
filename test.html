@@ -1,0 +1,30 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
+<script>
+$("#run").click(function(){
+  jQuery.ajax({
+    //Pick the URL up from the textbox    
+    url: $("#url").val(),
+        success: function(result) {
+          //Get the HTML of a page
+          html = jQuery('<span>').html(result);
+          
+          //Find the specified class and show the value
+             
+				alert(html);
+        },
+    });
+  });
+  
+  
+</script>
+</head>
+<body>
+<input id="url" />
+<button id="run">Run</button>
+
+
+</body>
+</html>

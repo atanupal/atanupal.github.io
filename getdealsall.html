@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="script10all.js"></script>
+
+<script>
+
+
+
+
+
+loadLib("script10all");
+
+
+
+</script>
+
+
+<style>
+
+
+	html, body {
+    width: 100%;
+}
+table {
+    margin: 0 auto;
+}
+input {
+    border: 1;
+    background: transparent /* the important bit */
+}
+textarea {
+    border: 1;
+    background: transparent /* the important bit */
+}
+button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 1;
+    cursor:pointer;
+    overflow: hidden;
+    outline:1;
+}
+img{
+    
+    object-fit: contain;
+    }
+
+ul.swatch-colors {
+  list-style: none;
+}
+ul.swatch-colors li{
+  display:inline-block;
+  margin:5px;
+  padding:0
+}
+.swatch-colors li .swatch-img {
+  cursor:pointer;
+  display:block;
+}
+input[type=radio] {
+  display: none;
+}
+input:checked + label img {
+  border:2px solid #00f;
+}
+a {
+    text-decoration:none;
+}
+
+a:hover {
+   text-decoration:underline;
+}
+</style>
+
+<script type="text/javascript">
+//<![CDATA[
+bkLib.onDomLoaded(function() {
+    nicEditors.editors.push(
+        new nicEditor().panelInstance(
+            document.getElementById('description1')
+			
+        )
+    );
+});
+//]]>
+//<![CDATA[
+bkLib.onDomLoaded(function() {
+    nicEditors.editors.push(
+        new nicEditor().panelInstance(
+            document.getElementById('description2')
+			
+        )
+    );
+});
+//]]>
+//<![CDATA[
+bkLib.onDomLoaded(function() {
+    nicEditors.editors.push(
+        new nicEditor().panelInstance(
+            document.getElementById('description3')
+			
+        )
+    );
+});
+//]]>
+//<![CDATA[
+bkLib.onDomLoaded(function() {
+    nicEditors.editors.push(
+        new nicEditor().panelInstance(
+            document.getElementById('description4')
+			
+        )
+    );
+});
+//]]>
+</script>
+
+
+</head>
+
+<body  onload="refresh()"  bgcolor="#BFB3FF" lang=EN-US
+link=blue vlink=purple>
+
+<center>
+<table border="0" width=100%  align="center" >
+<tr>
+<td><center>
+
+<img src="deals.jpg" height="142" width="242"> 
+</center>
+</td>
+
+<td>
+<center>
+<img src="deals.gif" height="142" width="242"> 
+</center></td>
+<td>
+<center><img src="deals.jpg" height="142" width="242"> 
+</center></td>
+</tr>
+</table>
+</center>
+
+
+	 <table id="table1" border="1" align="center">
+	 
+
+<tr>
+<td>Deal_ID: </td>
+
+<td>Summary: </td>
+
+<td>Description: </td>
+
+
+<td>Deal Price: </td>
+
+<td>Max Price: </td>
+
+<td> Picture : </td>
+
+
+
+<td>Link: </td>
+<td> Thumbs up : </td>
+<td> Thumbs down : </td>
+<td> Upload Name : </td>
+
+<td> Upload Email : </td>
+
+<td> Expired : </td>
+</tr>
+
+
+	 
+<tr>
+
+<td> <label id="deal_id1">link4</label>
+
+ <button id="approve1" onclick="approve1()">Approve</button>
+ <button id="approve11" onclick="approve11()">MailAll</button>
+ <button id="reject1" onclick="reject1()">Reject</button>
+ 
+ <button id="read1" onclick="read1()">Read</button>
+
+</td>
+
+<td><input id="summary1" type="text" name="summary1"> </td>
+<td><textarea rows="8" cols="50" id="description1" name="description1" ></textarea></td>
+<td> <input id="dealprice1" type="text" name="dealprice1"></td>
+
+<td><input id="maxprice1" type="text" name="maxprice1"> </td>
+<td><img id="img1" src="" alt="Mountain View" style="width:304px;height:228px;"><input id="imgg1" type="text" name="imgg1"></td>
+<td> <textarea rows="8" cols="50" id="link1" name="link1" ></textarea></td>
+
+<td><label id="tup1"></label> </td>
+<td><label id="tdown1"></label> </td>
+<td><input id="uploadname1" type="text" name="uploadname1"> </td>
+<td><input id="uploademail1" type="text" name="uploademail1"></td>
+
+<td><label id="expired1"></label> </td>
+</tr>
+
+<tr>
+
+<td> <label id="deal_id2"></label>
+ <button id="approve2" onclick="approve2()">Approve</button>
+ <button id="approve22" onclick="approve22()">MailAll</button>
+ <button id="reject2" onclick="reject2()">Reject</button>
+ 
+ <button id="read2" onclick="read2()">Read</button>
+
+</td>
+
+<td><input id="summary2" type="text" name="summary2"> </td>
+<td><textarea rows="8" cols="50" id="description2" name="description2" ></textarea></td>
+<td> <input id="dealprice2" type="text" name="dealprice2"></td>
+
+<td><input id="maxprice2" type="text" name="maxprice2"> </td>
+<td><img id="img2" src="" alt="Mountain View" style="width:304px;height:228px;"><input id="imgg2" type="text" name="imgg2"></td>
+<td> <textarea rows="8" cols="50" id="link2" name="link2" ></textarea></td>
+
+<td><label id="tup2"></label> </td>
+<td><label id="tdown2"></label> </td>
+<td><input id="uploadname2" type="text" name="uploadname2"> </td>
+<td><input id="uploademail2" type="text" name="uploademail2"></td>
+<td><label id="expired2"></label> </td>
+</tr>
+<tr>
+
+<td> <label id="deal_id3"></label>
+
+ <button id="approve3" onclick="approve3()">Approve</button>
+ <button id="approve33" onclick="approve33()">MailAll</button>
+ <button id="reject3" onclick="reject3()">Reject</button>
+ 
+ <button id="read3" onclick="read3()">Read</button>
+
+</td>
+
+<td><input id="summary3" type="text" name="summary3"> </td>
+<td><textarea rows="8" cols="50" id="description3" name="description3" ></textarea></td>
+<td> <input id="dealprice3" type="text" name="dealprice3"></td>
+
+<td><input id="maxprice3" type="text" name="maxprice3"> </td>
+<td><img id="img3" src="" alt="Mountain View" style="width:304px;height:228px;"><input id="imgg3" type="text" name="imgg3"></td>
+<td> <textarea rows="8" cols="50" id="link3" name="link3" ></textarea></td>
+
+<td><label id="tup3"></label> </td>
+<td><label id="tdown3"></label> </td>
+<td><input id="uploadname3" type="text" name="uploadname3"> </td>
+<td><input id="uploademail3" type="text" name="uploademail3"></td>
+<td><label id="expired3"></label> </td>
+</tr>
+<tr>
+
+<td> <label id="deal_id4"></label>
+
+ <button id="approve4" onclick="approve4()">Approve</button>
+ <button id="approve44" onclick="approve44()">MailAll</button>
+ <button id="reject4" onclick="reject4()">Reject</button>
+ 
+ <button id="read4" onclick="read4()">Read</button>
+</td>
+
+<td><input id="summary4" type="text" name="summary4"> </td>
+<td><textarea rows="8" cols="50" id="description4" name="description4" ></textarea></td>
+<td> <input id="dealprice4" type="text" name="dealprice4"></td>
+
+<td><input id="maxprice4" type="text" name="maxprice4"> </td>
+<td><img id="img4" src="" alt="Mountain View" style="width:304px;height:228px;"><input id="imgg4" type="text" name="imgg4"></td>
+<td> <textarea rows="8" cols="50" id="link4" name="link4" ></textarea></td>
+
+<td><label id="tup4"></label> </td>
+<td><label id="tdown4"></label> </td>
+<td><input id="uploadname4" type="text" name="uploadname4"> </td>
+<td><input id="uploademail4" type="text" name="uploademail4"></td>
+
+<td><label id="expired4"></label> </td>
+
+
+</tr>
+
+</table>
+<table id="table2" border="0">
+
+<tr>
+<td>	 <button id="Prev" onclick="previous()">Prev</button>
+
+ <button id="Refresh" onclick="refresh2()">Refresh</button>
+ 
+ <button id="Next" onclick="next()">Next</button>
+ 
+ </br>
+ </td>
+ 
+ </tr>
+ <tr>
+ <td>
+  <button id="page1" onclick="page1()">Page 1</button>
+ </td> </tr>
+  
+  </table>
+  <center>
+ <table id="table3" border="0" align ="center"> 
+  <tr>
+ <td> 
+<p id="count">0</p></td></tr>
+<tr><td>
+<p id="current">0</p></td></tr>
+<tr><td>
+<p id="number_of_pages">0</p></td></tr>
+<tr><td>
+<p id="page_number">Page Number is : 1</p></br>
+</td></tr>
+
+
+<tr><td>
+	 <p><span id="txtHint"></span></p> 
+</td></tr>
+
+</table>
+</center>
+
+
+<center>
+<table id="table4">
+<tr>
+<td><label> Username: <label></td>
+<td><input id="username" type="text" name="username"></td>
+
+</tr>
+
+<tr>
+<td><label> Password: <label></td>
+<td><input id="password" type="password" name="password"></td>
+
+</tr>
+
+<tr>
+<td>
+<button id="login" onclick="login()" type="submit">Login</button> </td>
+
+</tr>
+</table>
+</center>
+<center><h1><a href="deals.html">Home</a></h1></center>
+	<ul id="thumbnails1" class="noul swatch-colors">
+	<table>
+<tr>
+<td>	
+		
+ <label for="select" class="select">
+      <img src="select.jpg" class="full swatch-img" alt="Select" title="Select" width="100" height="100">
+    </label>
+	
+	</td>
+  
+<td>
+  <li>
+  
+    <input name="swatch_color" value="wall1" type="radio" id="wall1" onClick="func(this.value);">
+    <label for="wall1" class="lbswatches">
+      <img src="wall1_small.jpg" class="full swatch-img" alt="Wall1" title="Wall1" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  
+  <li>
+    <input name="swatch_color" value="wall2" type="radio" id="wall2" onClick="func(this.value);">
+    <label class="lbswatches" for="wall2">
+      <img src="wall2_small.jpg" class="full swatch-img" alt="Wall2" title="Wall2" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall3" type="radio" id="wall3" onClick="func(this.value);">
+    <label class="lbswatches" for="wall3">
+      <img src="wall3_small.jpg" class="full swatch-img" alt="Wall3" title="Wall3" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall4"  type="radio" id="wall4" onClick="func(this.value);">
+    <label class="lbswatches" for="wall4">
+      <img src="wall4_small.jpg" class="full swatch-img" alt="Wall4" title="Wall4" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall5"  type="radio" id="wall5" onClick="func(this.value);">
+    <label class="lbswatches" for="wall5">
+      <img src="wall5_small.jpg" class="full swatch-img" alt="Wall5" title="Wall5" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  </tr>
+  </table>
+</ul>
+<h2 id="colorselected"></h2>
+</body>
+
+ 
+
+
+</html>

@@ -1,0 +1,527 @@
+
+<!-- saved from url=(0045)./Jokes.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Jokes</title>
+</head>
+
+<body  onload="refresh1()"  bgcolor="#BFB3FF">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="dot0" style="position: absolute; visibility: hidden; height: 199; width: 731; left: 50; top: -33">
+    &nbsp;
+</div>
+<div id="dot1" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/bullet.gif" width="11" height="11">
+</div>
+<div id="dot2" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/bullet.gif" width="11" height="11">
+</div>
+<div id="dot3" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/bullet.gif" width="11" height="11">
+</div>
+<div id="dot4" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/bullet.gif" width="11" height="11">
+</div>
+<div id="dot5" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/bullet.gif" width="11" height="11">
+</div>
+<div id="dot6" style="position: absolute; height: 11; width: 11;">
+	<img src="./Jokes_files/star.gif" width="20" height="20">
+</div>
+
+
+
+
+
+<script>
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    
+    function checkCookie() {
+        var user = getCookie("username");
+        if (user != "") {
+           // alert("Welcome again " + user);
+        } else {
+            user = prompt("Please enter your name:", "");
+            if (user != "" && user != null) {
+                setCookie("username", user, 365);
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    function refresh1()
+    {
+    
+    var temp= document.cookie.indexOf('wallpaper1=');
+    
+    if (temp==-1)
+    {
+    document.cookie = 'wallpaper1=wall1';
+    radiobtn = document.getElementById("wall1");
+    radiobtn.checked = true;
+    document.body.style.background = 'url(wall1.jpg) repeat center center';
+    }
+    else{
+    var theme = getCookie("wallpaper1");
+    
+    radiobtn = document.getElementById(theme);
+    radiobtn.checked = true;
+    document.body.style.background = 'url('+theme+'.jpg) repeat center center';
+    }
+    }
+    
+    function func(v)
+    {
+    
+    
+        
+      document.body.style.background = 'url('+v+'.jpg) repeat center center';
+     document.cookie = 'wallpaper1=' + v;
+      
+      
+      
+    }
+    
+    </script>
+
+
+<style>
+
+	
+	
+	
+    table {
+        margin: 0 auto;
+    }
+    
+    
+    ul.swatch-colors {
+      list-style: none;
+    }
+    ul.swatch-colors li{
+      display:inline-block;
+      margin:5px;
+      padding:0
+     
+    }
+    .swatch-colors li .swatch-img {
+      cursor:pointer;
+      display:block;
+    }
+    input[type=radio] {
+      display: none;
+    }
+    input:checked + label img {
+      border:2px solid #00f;
+    }
+    a {
+        text-decoration:none;
+    }
+    
+    a:hover {
+       text-decoration:underline;
+    }
+    </style>
+<script language="JavaScript">
+<!-- hide code
+
+
+
+
+var nDots = 7;
+
+var Xpos = 0;
+var Ypos = 0;
+
+var DELTAT = .01;
+var SEGLEN = 10;
+var SPRINGK = 10;
+var MASS = 1;
+var XGRAVITY = 0;
+var YGRAVITY = 50;
+var RESISTANCE = 10;
+var STOPVEL = 0.1;
+var STOPACC = 0.1;
+var DOTSIZE = 11;
+var BOUNCE = 0.75;
+
+var isNetscape = navigator.appName=="Netscape";
+
+var followmouse = true;
+
+var dots = new Array();
+init();
+
+function init()
+{
+    var i = 0;
+    for (i = 0; i < nDots; i++) {
+        dots[i] = new dot(i);
+    }
+    
+    if (!isNetscape) {
+        // I only know how to read the locations of the 
+        // <LI> items in IE
+        //skip this for now
+        // setInitPositions(dots)
+    }
+    
+    // set their positions
+    for (i = 0; i < nDots; i++) {
+        dots[i].obj.left = dots[i].X;
+        dots[i].obj.top = dots[i].Y;
+    }
+    
+    
+    if (isNetscape) {
+        startanimate();
+    } else {
+        setTimeout("startanimate()", 1000);
+    }
+}
+
+
+
+function dot(i) 
+{
+    this.X = Xpos;
+    this.Y = Ypos;
+    this.dx = 0;
+    this.dy = 0;
+    if (isNetscape) {	
+        this.obj = eval("document.dot" + i);
+    } else {
+        this.obj = eval("dot" + i + ".style");
+    }
+}
+
+
+function startanimate() {	
+    setInterval("animate()", 20);
+}
+
+
+function setInitPositions(dots)
+{
+    var startloc = document.all.tags("LI");
+    var i = 0;
+    for (i = 0; i < startloc.length && i < (nDots - 1); i++) {
+        dots[i+1].X = startloc[i].offsetLeft
+            startloc[i].offsetParent.offsetLeft - DOTSIZE;
+        dots[i+1].Y = startloc[i].offsetTop +
+            startloc[i].offsetParent.offsetTop + 2*DOTSIZE;
+    }
+    dots[0].X = dots[1].X;
+    dots[0].Y = dots[1].Y - SEGLEN;
+}
+
+function MoveHandler(e)
+{
+    Xpos = e.pageX;
+    Ypos = e.pageY;	  
+    return true;
+}
+
+function MoveHandlerIE() {
+    Xpos = window.event.x + document.body.scrollLeft;
+    Ypos = window.event.y + document.body.scrollTop;	  
+}
+
+if (isNetscape) {
+    document.captureEvents(Event.MOUSEMOVE);
+    document.onMouseMove = MoveHandler;
+} else {
+    document.onmousemove = MoveHandlerIE;
+}
+
+
+function vec(X, Y)
+{
+    this.X = X;
+    this.Y = Y;
+}
+
+function springForce(i, j, spring)
+{
+    var dx = (dots[i].X - dots[j].X);
+    var dy = (dots[i].Y - dots[j].Y);
+    var len = Math.sqrt(dx*dx + dy*dy);
+    if (len > SEGLEN) {
+        var springF = SPRINGK * (len - SEGLEN);
+        spring.X += (dx / len) * springF;
+        spring.Y += (dy / len) * springF;
+    }
+}
+
+
+function animate() {	
+    var start = 0;
+    if (followmouse) {
+        dots[0].X = Xpos;
+        dots[0].Y = Ypos;	
+        start = 1;
+    }
+    
+    for (i = start ; i < nDots; i++ ) {
+        
+        var spring = new vec(0, 0);
+        if (i > 0) {
+            springForce(i-1, i, spring);
+        }
+        if (i < (nDots - 1)) {
+            springForce(i+1, i, spring);
+        }
+        
+        var resist = new vec(-dots[i].dx * RESISTANCE,
+            -dots[i].dy * RESISTANCE);
+        
+        var accel = new vec((spring.X + resist.X)/MASS + XGRAVITY,
+            (spring.Y + resist.Y)/ MASS + YGRAVITY);
+        
+        dots[i].dx += (DELTAT * accel.X);
+        dots[i].dy += (DELTAT * accel.Y);
+        
+        if (Math.abs(dots[i].dx) < STOPVEL &&
+            Math.abs(dots[i].dy) < STOPVEL &&
+            Math.abs(accel.X) < STOPACC &&
+            Math.abs(accel.Y) < STOPACC) {
+            dots[i].dx = 0;
+            dots[i].dy = 0;
+        }
+        
+        dots[i].X += dots[i].dx;
+        dots[i].Y += dots[i].dy;
+        
+        var height, width;
+        if (isNetscape) {
+            height = window.innerHeight + window.pageYOffset;
+            width = window.innerWidth + window.pageXOffset;
+        } else {	
+            height = document.body.clientHeight + document.body.scrollTop;
+            width = document.body.clientWidth + document.body.scrollLeft;
+        }
+        
+        if (dots[i].Y >=  height - DOTSIZE - 1) {
+            if (dots[i].dy > 0) {
+                dots[i].dy = BOUNCE * -dots[i].dy;
+            }
+            dots[i].Y = height - DOTSIZE - 1;
+        }
+        if (dots[i].X >= width - DOTSIZE) {
+            if (dots[i].dx > 0) {
+                dots[i].dx = BOUNCE * -dots[i].dx;
+            }
+            dots[i].X = width - DOTSIZE - 1;
+        }
+        if (dots[i].X < 0) {
+            if (dots[i].dx < 0) {
+                dots[i].dx = BOUNCE * -dots[i].dx;
+            }
+            dots[i].X = 0;
+        }
+        
+        dots[i].obj.left = dots[i].X;			
+        dots[i].obj.top =  dots[i].Y;	
+        	
+    }
+}
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<font size="4">
+<hr>
+</font>
+<p align="center" style="LINE-HEIGHT: 100%"><font color="#0000ff" face="Impact" size="7">Jokes</font></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<font size="4">
+<hr>
+</font>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<p>&nbsp;</p>
+<table border="3" width="100%" bordercolorlight="#FFFF00" bordercolordark="#FF0000">
+  <tbody><tr>
+    <td width="20%" align="center"><a href="./joke1.htm">Joke1</a></td>
+    <td width="20%" align="center"><a href="./joke2.htm">Joke2&nbsp;</a></td>
+    <td width="20%" align="center"><a href="./joke3.htm">Joke3</a></td>
+    <td width="20%" align="center"><a href="./joke4.htm">Joke4</a></td>
+    <td width="20%" align="center"><a href="./joke5.htm">Joke5</a></td>
+  </tr>
+  <tr>
+    <td width="20%" align="center"><a href="./joke6.htm">Joke6</a></td>
+    <td width="20%" align="center"><a href="./joke7.htm">Joke7</a></td>
+    <td width="20%" align="center"><a href="./joke8.htm">Joke8</a></td>
+    <td width="20%" align="center"><a href="./joke9.htm">Joke9</a></td>
+	<td width="20%" align="center"></td>
+  </tr>
+  <tr>
+   <td width="100%" align="center" colspan="5"><a href="./Collectionofjokes-Marriage.htm">Collection of Jokes - Marriage</a></td>
+  </tr>
+</tbody></table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+<ul id="thumbnails1" class="noul swatch-colors">
+	<table>
+<tr>
+<td>	
+		
+ <label for="select" class="select">
+      <img src="select.jpg" class="full swatch-img" alt="Select" title="Select" width="100" height="100">
+    </label>
+	
+	</td>
+  
+<td>
+  <li>
+  
+    <input name="swatch_color" value="wall1" type="radio" id="wall1" onClick="func(this.value);">
+    <label for="wall1" class="lbswatches">
+      <img src="wall1_small.jpg" class="full swatch-img" alt="Wall1" title="Wall1" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  
+  <li>
+    <input name="swatch_color" value="wall2" type="radio" id="wall2" onClick="func(this.value);">
+    <label class="lbswatches" for="wall2">
+      <img src="wall2_small.jpg" class="full swatch-img" alt="Wall2" title="Wall2" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall3" type="radio" id="wall3" onClick="func(this.value);">
+    <label class="lbswatches" for="wall3">
+      <img src="wall3_small.jpg" class="full swatch-img" alt="Wall3" title="Wall3" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall4"  type="radio" id="wall4" onClick="func(this.value);">
+    <label class="lbswatches" for="wall4">
+      <img src="wall4_small.jpg" class="full swatch-img" alt="Wall4" title="Wall4" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  
+<td>
+  <li>
+    <input name="swatch_color" value="wall5"  type="radio" id="wall5" onClick="func(this.value);">
+    <label class="lbswatches" for="wall5">
+      <img src="wall5_small.jpg" class="full swatch-img" alt="Wall5" title="Wall5" width="100" height="100">
+    </label>
+  </li>
+  </td>
+  </tr>
+  </table>
+</ul>
+
+
+
+
+<p>&nbsp;</p>
+<p align="center"><font size="6">Designed and developed by</font></p>
+<p align="center">&nbsp;</p>
+<p align="center"><a href="./index.htm"><img border="0" src="atanu_4.JPG" width="443" height="257"></a></p>
+
+<p align="center">&nbsp;</p>
+<p align="center">
+  
+ 
+</p><center>
+ <applet code="fphover.class" codebase="./" width="200" height="50">
+  <param name="textcolor" value="#FFFFFF">
+  <param name="text" value="Back to HOME">
+  <param name="color" value="#FFCC66">
+  <param name="hovercolor" value="#FF00FF">
+  <param name="effect" value="glow">
+  <param name="url" valuetype="ref" value="index.htm">
+</applet>
+</center>
+ 
+<p></p>
+
+
+
+
+</body></html>
